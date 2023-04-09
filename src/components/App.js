@@ -1,19 +1,40 @@
+import React from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
-import ImagePopup from './ImagePopup.js'
+import ImagePopup from './ImagePopup.js';
 
 function App() {
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isAddCardPopupOpen, setAddCardPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+
+  const handleEditAvatarClick = ()=> {
+    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+  }
+  const handleAddCardClick = ()=> {
+    setAddCardPopupOpen(!isAddCardPopupOpen);
+  }
+  const handleEditPtofileClick = ()=> {
+    setEditProfilePopupOpen(!isEditProfilePopupOpen);
+  }
+
+
   return (
     <div className='app'>
       <Header />
-      <Main />
+      <Main 
+        onEditAvatar={handleEditAvatarClick}
+        onAddCard={handleAddCardClick}
+        onEditProfile={handleEditPtofileClick}
+      />
       <Footer />
       <PopupWithForm
         name='edit-profile'
         title='Редактировать профиль'
         buttonText='Сохранить'
+        isOpen={isEditProfilePopupOpen}
         inputs= {[
           {
             name: 'name',
@@ -31,6 +52,7 @@ function App() {
         name='add-card'
         title='Новое место'
         buttonText='Создать'
+        isOpen={isAddCardPopupOpen}
         inputs= {[
           {
             name: 'title',
@@ -48,6 +70,7 @@ function App() {
         name='update-avatar'
         title='Обновить аватар'
         buttonText='Сохранить'
+        isOpen={isEditAvatarPopupOpen}
         inputs= {[
           {
             name: 'link-avatar',
