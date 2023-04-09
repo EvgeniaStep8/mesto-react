@@ -19,6 +19,11 @@ function App() {
   const handleEditPtofileClick = ()=> {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
+  const closeAllPopup = () => {
+    setEditAvatarPopupOpen(false);
+    setAddCardPopupOpen(false);
+    setEditProfilePopupOpen(false);
+  }
 
 
   return (
@@ -35,6 +40,7 @@ function App() {
         title='Редактировать профиль'
         buttonText='Сохранить'
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopup}
         inputs= {[
           {
             name: 'name',
@@ -53,6 +59,7 @@ function App() {
         title='Новое место'
         buttonText='Создать'
         isOpen={isAddCardPopupOpen}
+        onClose={closeAllPopup}
         inputs= {[
           {
             name: 'title',
@@ -71,6 +78,7 @@ function App() {
         title='Обновить аватар'
         buttonText='Сохранить'
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopup}
         inputs= {[
           {
             name: 'link-avatar',

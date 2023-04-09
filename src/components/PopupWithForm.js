@@ -27,7 +27,11 @@ export default function PopupWithForm(props) {
 					)}
           <button className='popup__save-button' type='submit'>{props.buttonText}</button>
         </form>
-        <button className='popup__close' type='button'></button>
+        <button
+				  className='popup__close'
+					type='button'
+					onClick={props.onClose}
+					></button>
       </div>
     </div>
 	)
