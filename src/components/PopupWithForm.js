@@ -1,3 +1,6 @@
+import React from 'react';
+import Input from './Input.js'
+
 export default function PopupWithForm(props) {
 	return (
 		<div className={props.isOpen ? 'popup popup_opened' : 'popup'} id={`popup-${props.name}`}>
@@ -7,21 +10,12 @@ export default function PopupWithForm(props) {
           {props.inputs && (
 						props.inputs.map(input => {
 							return (
-								<> 
-							    <input
-                    id ={`${input.name}-input`}
-                    type={input.type}
-                    name={input.name}
-                    className='popup__input'
-                    placeholder={input.placeholder}
-                    required
-                  />
-								  <span 
-									  id = {`${input.name}-input-error`}
-										className='popup__input-error'
-									>
-									</span>
-								</>
+								<Input
+								  name={input.name}
+									type={input.type}
+									placeholder={input.placeholder}
+									key={input.name}
+								/>
 							)
 						})
 					)}

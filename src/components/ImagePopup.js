@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function ImagePopup() {
 	return (
     <div className='popup popup_overlay_dark' id='popup-open-image'>
