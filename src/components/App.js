@@ -8,8 +8,7 @@ import ImagePopup from "./ImagePopup.js";
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
-    React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
@@ -104,6 +103,7 @@ function App() {
         name="confirm"
         title="Вы уверены?"
         buttonText="Да"
+        isOpen={false}
         onClose={closeAllPopup}
       />
       <ImagePopup card={selectedCard} onClose={closeAllPopup} />
