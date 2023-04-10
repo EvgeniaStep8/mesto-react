@@ -1,21 +1,22 @@
 import React from 'react';
-import avatar from '../images/profile__avatar.jpg';
 import api from '../utils/api.js'
 
 export default function Main(props) {
-  const [userName, setUserName] = React.useState('Жак-Ив Кусто');
-  const [userDescription, setUserDescription] = React.useState('Исследователь океана');
-  const [userAvatar, setUserAvatar] = React.useState({avatar});
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
+  const [cards, setCards] = React.useState('');
 
   React.useEffect( () => {
-    api.getUserInfo()
-      .then(user => {
-        setUserName(user.name);
-        setUserDescription(user.about);
-        setUserAvatar(user.avatar);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, initialCards]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setCards(initialCards.reverse());
       })
       .catch(err => console.log(err));
-  }, []);
+    }, []);
 
   return (
     <main className='content'>
@@ -44,7 +45,9 @@ export default function Main(props) {
           onClick={props.onAddCard}
           ></button>
       </section>
-      <section className='cards'></section>
+      <section className='cards'>
+        
+      </section>
     </main>
   );
 }
