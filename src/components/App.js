@@ -8,7 +8,8 @@ import ImagePopup from "./ImagePopup.js";
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
+    React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
@@ -53,52 +54,81 @@ function App() {
         buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopup}
-        inputs={[
-          {
-            name: "name",
-            type: "text",
-            placeholder: "Имя",
-          },
-          {
-            name: "about",
-            type: "text",
-            placeholder: "О себе",
-          },
-        ]}
-      />
+      >
+        <>
+          <input
+            id="name-input"
+            type="text"
+            name="name"
+            className="popup__input"
+            placeholder="Имя"
+            minLength="2"
+            maxLength="40"
+            required
+          />
+          <span id="name-input-error" className="popup__input-error"></span>
+          <input
+            id="about-input"
+            type="text"
+            name="about"
+            className="popup__input"
+            placeholder="О себе"
+            minLength="2"
+            maxLength="40"
+            required
+          />
+          <span id="name-input-error" className="popup__input-error"></span>
+        </>
+      </PopupWithForm>
       <PopupWithForm
         name="add-card"
         title="Новое место"
         buttonText="Создать"
         isOpen={isAddCardPopupOpen}
         onClose={closeAllPopup}
-        inputs={[
-          {
-            name: "title",
-            type: "text",
-            placeholder: "Название",
-          },
-          {
-            name: "link",
-            type: "url",
-            placeholder: "Ссылка на картинку",
-          },
-        ]}
-      />
+      >
+        <>
+          <input
+            id="title-input"
+            type="text"
+            name="title"
+            className="popup__input"
+            placeholder="Название"
+            minLength="2"
+            maxLength="30"
+            required
+          />
+          <span id="link-input-error" className="popup__input-error"></span>
+          <input
+            id="link-input"
+            type="url"
+            name="link"
+            className="popup__input"
+            placeholder="Ссылка на картинку"
+            required
+          />
+          <span id="name-input-error" className="popup__input-error"></span>
+        </>
+      </PopupWithForm>
       <PopupWithForm
         name="update-avatar"
         title="Обновить аватар"
         buttonText="Сохранить"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopup}
-        inputs={[
-          {
-            name: "link-avatar",
-            type: "url",
-            placeholder: "Ссылка на картинку профиля",
-          },
-        ]}
-      />
+      >
+        <>
+          <input
+            id="link-avatar"
+            type="url"
+            name="link"
+            className="popup__input"
+            placeholder="Ссылка на картинку профиля"
+            required
+          />
+          <span id="name-input-error" className="popup__input-error"></span>
+        </>
+      </PopupWithForm>
       <PopupWithForm
         name="confirm"
         title="Вы уверены?"
