@@ -9,7 +9,7 @@ export default function PopupWithForm(props) {
         <form className="popup__form" name={`form${props.name}`}>
           {props.children}
           <button className="popup__save-button" type="submit">
-            {props.buttonText}
+            {props.buttonText || 'Сохранить'}
           </button>
         </form>
         <button
