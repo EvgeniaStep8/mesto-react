@@ -1,10 +1,11 @@
 import React from "react";
-import {useState} from 'react';
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
-import PopupWithForm from "./PopupWithForm.js";
-import ImagePopup from "./ImagePopup.js";
+import { useState } from "react";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
+import Input from "./Input";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -54,30 +55,20 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopup}
       >
-        <>
-          <input
-            id="name-input"
-            type="text"
-            name="name"
-            className="popup__input"
-            placeholder="Имя"
-            minLength="2"
-            maxLength="40"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-          <input
-            id="about-input"
-            type="text"
-            name="about"
-            className="popup__input"
-            placeholder="О себе"
-            minLength="2"
-            maxLength="40"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-        </>
+        <Input
+          id="nameInput"
+          name="name"
+          placeholder="Имя"
+          minLength="2"
+          maxLength="40"
+        />
+        <Input
+          id="aboutInput"
+          name="about"
+          placeholder="О себе"
+          minLength="2"
+          maxLength="40"
+        />
       </PopupWithForm>
       <PopupWithForm
         name="add-card"
@@ -86,28 +77,19 @@ function App() {
         isOpen={isAddCardPopupOpen}
         onClose={closeAllPopup}
       >
-        <>
-          <input
-            id="title-input"
-            type="text"
-            name="title"
-            className="popup__input"
-            placeholder="Название"
-            minLength="2"
-            maxLength="30"
-            required
-          />
-          <span id="link-input-error" className="popup__input-error"></span>
-          <input
-            id="link-input"
-            type="url"
-            name="link"
-            className="popup__input"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-        </>
+        <Input
+          id="titleInput"
+          name="title"
+          placeholder="Название"
+          minLength="2"
+          maxLength="30"
+        />
+        <Input
+          
+          id="linkInput"
+          name="link"
+          placeholder="Ссылка на картинку"
+        />
       </PopupWithForm>
       <PopupWithForm
         name="update-avatar"
@@ -115,17 +97,12 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopup}
       >
-        <>
-          <input
-            id="link-avatar"
-            type="url"
-            name="link"
-            className="popup__input"
-            placeholder="Ссылка на картинку профиля"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-        </>
+        <Input
+          type="url"
+          id="linkAvatarInput"
+          name="linkAvatar"
+          placeholder="Ссылка на картинку профиля"
+        />
       </PopupWithForm>
       <PopupWithForm
         name="confirm"

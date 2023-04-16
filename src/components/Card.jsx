@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Card(props) {
+export default function Card({ card, onCardClick }) {
   const handleClick = () => {
-    props.onCardClick({
-      name: props.card.name,
-      link: props.card.link,
+    onCardClick({
+      name: card.name,
+      link: card.link,
       isSelected: true,
     });
   };
@@ -13,13 +13,13 @@ export default function Card(props) {
     <article className="card">
       <img
         className="card__image"
-        src={props.card.link}
-        alt={props.card.name}
+        src={card.link}
+        alt={card.name}
         onClick={handleClick}
       />
       <button className="card__delete" type="button"></button>
       <div className="card__container">
-        <h2 className="card__title">{props.card.name}</h2>
+        <h2 className="card__title">{card.name}</h2>
         <div className="card__like-container">
           <button className="card__like" type="button"></button>
           <p className="card__like-counter"></p>
