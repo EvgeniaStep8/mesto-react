@@ -41,8 +41,10 @@ export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClic
       <section className="cards">
         {currentCards?.map(card  => (
           <Card
-            card = {card}
             key={card._id}
+            card ={card}
+            isOwnerCard={card._id===currentUser._id}
+            isLiked={card.likes.some(like => like._id === currentUser._id)}
             onCardClick={onCardClick}
           />
         ))}
