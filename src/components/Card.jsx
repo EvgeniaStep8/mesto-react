@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Card({ card, isOwnerCard, isLiked, onCardClick }) {
+export default function Card({ card, isOwnerCard, isLiked, onCardClick, onCardLikeClick }) {
   const handleClick = () => {
     onCardClick({
       name: card.name,
@@ -8,6 +8,10 @@ export default function Card({ card, isOwnerCard, isLiked, onCardClick }) {
       isSelected: true,
     });
   };
+
+  const handleLikeClick = () => {
+    onCardLikeClick(card);
+  }
 
   return (
     <article className="card">
@@ -24,9 +28,10 @@ export default function Card({ card, isOwnerCard, isLiked, onCardClick }) {
           <button
             className={`card__like ${isLiked && 'card__like_active'}`}
             type="button"
+            onClick={handleLikeClick}
           >
           </button>
-          <p className="card__like-counter"></p>
+          <p className="card__like-counter">{card.likes.length}</p>
         </div>
       </div>
     </article>

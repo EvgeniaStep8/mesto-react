@@ -79,16 +79,15 @@ class Api {
     }).then(this._checkResopne)
   }
 
-  putCardLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: {
-        authorization: this._authorization,
-      },
-    }).then(this._checkResopne);
-  }
-
-  deleteCardLike(cardId) {
+  changeCardLikes(cardId, isCardLiked) {
+    if(!isCardLiked) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        method: "PUT",
+        headers: {
+          authorization: this._authorization,
+        },
+      }).then(this._checkResopne);
+    }
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {

@@ -3,7 +3,7 @@ import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CurrentCardsContext } from '../contexts/CurrentCardsContext';
 
-export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClick}) {
+export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClick, onCardLikeClick}) {
   const currentUser = useContext(CurrentUserContext);
   const currentCards = useContext(CurrentCardsContext);
 
@@ -46,6 +46,7 @@ export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClic
             isOwnerCard={card._id===currentUser._id}
             isLiked={card.likes.some(like => like._id === currentUser._id)}
             onCardClick={onCardClick}
+            onCardLikeClick={onCardLikeClick}
           />
         ))}
       </section>

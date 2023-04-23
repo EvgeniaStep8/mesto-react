@@ -13,6 +13,7 @@ const App = () => {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+
   const [selectedCard, setSelectedCard] = useState({
     name: "",
     link: "",
@@ -50,9 +51,19 @@ const App = () => {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   };
 
-  const handleCardClick = (card) => {
+  const handleCardClick = card => {
     setSelectedCard(card);
   };
+
+  const handleLikeClick = card => {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    console.log(isLiked);
+    api
+    .changeCardLikes(card._id, isLiked)
+    .then(newCard => {
+      setCurrentCards(state => state.map(cardItem => card._id===cardItem._id ? newCard : cardItem))})
+    .catch(err => console.log(err));
+  }
 
   const closeAllPopup = () => {
     setEditAvatarPopupOpen(false);
@@ -71,6 +82,7 @@ const App = () => {
             onAddCard={handleAddCardClick}
             onEditProfile={handleEditPtofileClick}
             onCardClick={handleCardClick}
+            onCardLikeClick={handleLikeClick}
           />
           <Footer />
           <PopupWithForm
