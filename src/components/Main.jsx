@@ -1,5 +1,4 @@
-import React from "react";
-import {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import api from "../utils/api";
 import Card from "./Card";
 
@@ -52,7 +51,7 @@ export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClic
         ></button>
       </section>
       <section className="cards">
-        {cards.map(card  => (
+        {cards?.map(card  => (
             <Card
               card = {card}
               key={card._id}
