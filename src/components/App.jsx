@@ -57,11 +57,16 @@ const App = () => {
 
   const handleLikeClick = card => {
     const isLiked = card.likes.some(like => like._id === currentUser._id);
-    console.log(isLiked);
     api
     .changeCardLikes(card._id, isLiked)
     .then(newCard => {
       setCurrentCards(state => state.map(cardItem => card._id===cardItem._id ? newCard : cardItem))})
+    .catch(err => console.log(err));
+  }
+
+  const handleCardDelete = card => {
+    api.deleteCard(card._id)
+    .then(() => setCurrentCards(state => state.filter((cardItem) => cardItem._id !== card._id)))
     .catch(err => console.log(err));
   }
 
@@ -83,6 +88,7 @@ const App = () => {
             onEditProfile={handleEditPtofileClick}
             onCardClick={handleCardClick}
             onCardLikeClick={handleLikeClick}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
           <PopupWithForm
