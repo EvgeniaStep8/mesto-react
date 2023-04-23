@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import Input from "./Input";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -51,6 +50,12 @@ const App = () => {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   };
 
+  const handleUpdateUser = (userInfo) => {
+    api.patchUserInfo(userInfo)
+    .then(user => setCurrentUser(user))
+    .catch(err => console.log(err));
+  }
+
   const handleCardClick = card => {
     setSelectedCard(card);
   };
@@ -91,66 +96,10 @@ const App = () => {
             onCardDelete={handleCardDelete}
           />
           <Footer />
-          <PopupWithForm
-            name="edit-profile"
-            title="Редактировать профиль"
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopup}
-          >
-            <Input
-              id="nameInput"
-              name="name"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-            />
-            <Input
-              id="aboutInput"
-              name="about"
-              placeholder="О себе"
-              minLength="2"
-              maxLength="40"
-            />
-          </PopupWithForm>
-          <PopupWithForm
-            name="add-card"
-            title="Новое место"
-            buttonText="Создать"
-            isOpen={isAddCardPopupOpen}
-            onClose={closeAllPopup}
-          >
-            <Input
-              id="titleInput"
-              name="title"
-              placeholder="Название"
-              minLength="2"
-              maxLength="30"
-            />
-            <Input
-              id="linkInput"
-              name="link"
-              placeholder="Ссылка на картинку"
-            />
-          </PopupWithForm>
-          <PopupWithForm
-            name="update-avatar"
-            title="Обновить аватар"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopup}
-          >
-            <Input
-              type="url"
-              id="linkAvatarInput"
-              name="linkAvatar"
-              placeholder="Ссылка на картинку профиля"
-            />
-          </PopupWithForm>
-          <PopupWithForm
-            name="confirm"
-            title="Вы уверены?"
-            buttonText="Да"
-            isOpen={false}
-            onClose={closeAllPopup}
+            onUpdateUser={handleUpdateUser}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         </div>
