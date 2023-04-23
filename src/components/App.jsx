@@ -30,18 +30,12 @@ const App = () => {
   const [currentCards, setCurrentCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo, api.getInitialCards]).then(
+    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       ([userData, cards]) => {
         setCurrentUser(userData);
         setCurrentCards(cards);
       }
     );
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => console.log(err));
   }, []);
 
   const handleEditAvatarClick = () => {
