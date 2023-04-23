@@ -23,6 +23,7 @@ const App = () => {
     about: "",
     avatar: "",
     _id: "",
+    cohort: "",
   });
 
   useEffect(() => {
