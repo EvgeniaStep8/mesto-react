@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -120,6 +121,11 @@ const App = () => {
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopup}
             onUpdateAvatar={handleUpdateAvatar}
+          />
+          <AddPlacePopup
+            isOpen={isAddCardPopupOpen}
+            onClose={closeAllPopup}
+            onAddCard={}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         </div>
