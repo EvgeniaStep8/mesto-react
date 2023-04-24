@@ -79,6 +79,16 @@ const App = () => {
     .catch(err => console.log(err));
   }
 
+  const handlePlaceSubmit = card => {
+    api
+    .postCard(card)
+    .then(newCard => {
+      setCurrentCards([newCard, ...currentCards]);
+      closeAllPopup();
+    })
+    .catch(err => console.log(err));
+  }
+
   const handleCardClick = card => {
     setSelectedCard(card);
   };
@@ -125,7 +135,7 @@ const App = () => {
           <AddPlacePopup
             isOpen={isAddCardPopupOpen}
             onClose={closeAllPopup}
-            onAddCard={}
+            onAddCard={handlePlaceSubmit}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         </div>

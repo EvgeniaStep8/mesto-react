@@ -17,7 +17,12 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
 		<div className={classNamePopup} id="popup-update-avatar">
       <div className="popup__container">
         <h2 className="popup__title">Обновить аватар</h2>
-        <form className="popup__form" name="popupUpdateAvatarForm" noValidate>
+        <form
+          className="popup__form"
+          name="popupUpdateAvatarForm"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <input
             id = "link-avatar-input"
             type="url"
@@ -28,13 +33,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
 						ref={inputRef}
           />
           <span id = "link-avatar-input-error" className="popup__input-error"></span>
-          <button
-            className="popup__save-button"
-            type="submit"
-            onSubmit={handleSubmit}
-          >
-            Сохранить
-          </button>
+          <button className="popup__save-button" type="submit">Сохранить</button>
         </form>
         <button
 				  className="popup__close"

@@ -56,17 +56,14 @@ class Api {
     }).then(this._checkResopne);
   }
 
-  postCard(name, link) {
+  postCard(card) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: {
         authorization: this._authorization,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: name,
-        link: link,
-      }),
+      body: JSON.stringify(card),
     }).then(this._checkResopne);
   }
 
