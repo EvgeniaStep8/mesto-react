@@ -6,6 +6,11 @@ const EditAvatarPopup = memo(
 
     const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
+    const handleClose = () => {
+      onClose();
+      inputRef.current.value = "";
+    };
+
     const handleSubmit = (event) => {
       event.preventDefault();
       changePending();
@@ -44,7 +49,7 @@ const EditAvatarPopup = memo(
           <button
             className="popup__close"
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
           ></button>
         </div>
       </div>

@@ -15,6 +15,12 @@ const AddPlacePopup = memo(
       setLink(event.target.value);
     };
 
+    const handleClose = () => {
+      onClose();
+      setTitle("");
+      setLink("");
+    };
+
     const handleSubmit = (event) => {
       event.preventDefault();
       changePending();
@@ -40,6 +46,7 @@ const AddPlacePopup = memo(
               minLength="2"
               maxLength="30"
               required
+              value={title}
               onChange={handleTitleChange}
             />
             <span
@@ -53,6 +60,7 @@ const AddPlacePopup = memo(
               className="popup__input popup__input_type_link"
               placeholder="Ссылка на картинку"
               required
+              value={link}
               onChange={handleLinkChange}
             />
             <span name="link-input-error" className="popup__input-error"></span>
@@ -63,7 +71,7 @@ const AddPlacePopup = memo(
           <button
             className="popup__close"
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
           ></button>
         </div>
       </div>
