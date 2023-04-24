@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 
-const AddPlacePopup = ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
+const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, changePending }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   const [title, setTitle] = useState("");
@@ -67,6 +67,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddCard, isPending, changePending })
       </div>
     </div>
   );
-};
+});
 
 export default AddPlacePopup;
