@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Footer = () => (
+const Footer = memo(() => (
   <footer className="footer">
     <p className="footer__copyright">
       &#169; {new Date().getFullYear()} Mesto Russia
     </p>
   </footer>
-);
+));
 
 export default Footer;
