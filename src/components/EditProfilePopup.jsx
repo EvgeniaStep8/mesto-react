@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isPending, changePending }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = useContext(CurrentUserContext);
@@ -20,6 +20,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    changePending();
     onUpdateUser({ name, about: description });
   };
 
@@ -62,7 +63,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
           />
           <span id="job-input-error" className="popup__input-error"></span>
           <button className="popup__save-button" type="submit">
-            Сохранить
+            {isPending ? 'Сохранить...' : 'Сохранить'}
           </button>
         </form>
         <button

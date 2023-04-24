@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
+const AddPlacePopup = ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   const [title, setTitle] = useState("");
@@ -16,6 +16,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    changePending();
     onAddCard({ name: title, link });
   };
 
@@ -55,7 +56,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
           />
           <span name="link-input-error" className="popup__input-error"></span>
           <button className="popup__save-button" type="submit">
-            Создать
+            {isPending ? 'Создать...' : 'Создать'}
           </button>
         </form>
         <button

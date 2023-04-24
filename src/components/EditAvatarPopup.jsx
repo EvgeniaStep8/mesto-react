@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 
-const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isPending, changePending }) => {
   const inputRef = useRef(null);
 
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    changePending();
     onUpdateAvatar({
       avatar: inputRef.current.value,
     });
@@ -36,7 +37,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
             className="popup__input-error"
           ></span>
           <button className="popup__save-button" type="submit">
-            Сохранить
+          {isPending ? 'Сохранить...' : 'Сохранить'}
           </button>
         </form>
         <button

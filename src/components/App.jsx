@@ -14,6 +14,7 @@ const App = () => {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isPending, setPending] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({
     name: "",
@@ -59,6 +60,10 @@ const App = () => {
     setSelectedCard({ name: "", link: "", isSelected: false });
   };
 
+  const changePending = () => {
+    setPending(!isPending);
+  }
+
   const handleUpdateUser = (userInfo) => {
     api
       .patchUserInfo(userInfo)
@@ -66,7 +71,8 @@ const App = () => {
         setCurrentUser(user);
         closeAllPopup();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(()=> setPending(false));
   };
 
   const handleUpdateAvatar = (userAvatar) => {
@@ -76,7 +82,8 @@ const App = () => {
         setCurrentUser(user);
         closeAllPopup();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(()=> setPending(false));
   };
 
   const handlePlaceSubmit = (card) => {
@@ -86,7 +93,8 @@ const App = () => {
         setCurrentCards([newCard, ...currentCards]);
         closeAllPopup();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(()=> setPending(false));
   };
 
   const handleCardClick = (card) => {
@@ -136,16 +144,22 @@ const App = () => {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopup}
             onUpdateUser={handleUpdateUser}
+            isPending={isPending}
+            changePending={changePending}
           />
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopup}
             onUpdateAvatar={handleUpdateAvatar}
+            isPending={isPending}
+            changePending={changePending}
           />
           <AddPlacePopup
             isOpen={isAddCardPopupOpen}
             onClose={closeAllPopup}
             onAddCard={handlePlaceSubmit}
+            isPending={isPending}
+            changePending={changePending}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         </div>
