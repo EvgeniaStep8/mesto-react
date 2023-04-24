@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const ImagePopup = ({ card, onClose }) => {
+const ImagePopup = memo(({ card, onClose }) => {
   const isOpen = card.isSelected;
   const classNamePopup = `popup popup_overlay_dark ${
     isOpen ? "popup_opened" : ""
@@ -21,6 +21,6 @@ const ImagePopup = ({ card, onClose }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ImagePopup;
