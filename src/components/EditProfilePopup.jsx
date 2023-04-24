@@ -21,7 +21,6 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		onUpdateUser({ name, about: description });
-		onClose();
 	}
 
 	const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;

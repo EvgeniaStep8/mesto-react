@@ -51,9 +51,30 @@ const App = () => {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   };
 
+  const closeAllPopup = () => {
+    setEditAvatarPopupOpen(false);
+    setAddCardPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setSelectedCard({ name: "", link: "", isSelected: false });
+  }
+
   const handleUpdateUser = (userInfo) => {
-    api.patchUserInfo(userInfo)
-    .then(user => setCurrentUser(user))
+    api
+    .patchUserInfo(userInfo)
+    .then(user => {
+      setCurrentUser(user);
+      closeAllPopup();
+    })
+    .catch(err => console.log(err));
+  }
+
+  const handleUpdateAvatar = userAvatar => {
+    api
+    .patchUserAvatar(userAvatar)
+    .then(user => {
+      setCurrentUser(user);
+      closeAllPopup();
+    })
     .catch(err => console.log(err));
   }
 
@@ -75,13 +96,6 @@ const App = () => {
     .then(() => setCurrentCards(state => state.filter((cardItem) => cardItem._id !== card._id)))
     .catch(err => console.log(err));
   }
-
-  const closeAllPopup = () => {
-    setEditAvatarPopupOpen(false);
-    setAddCardPopupOpen(false);
-    setEditProfilePopupOpen(false);
-    setSelectedCard({ name: "", link: "", isSelected: false });
-  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -105,6 +119,7 @@ const App = () => {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopup}
+            onUpdateAvatar={handleUpdateAvatar}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         </div>
