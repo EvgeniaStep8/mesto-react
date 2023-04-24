@@ -1,9 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import Card from "./Card";
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { CurrentCardsContext } from '../contexts/CurrentCardsContext';
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentCardsContext } from "../contexts/CurrentCardsContext";
 
-export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClick, onCardLikeClick, onCardDelete }) {
+const Main = ({
+  onEditAvatar,
+  onEditProfile,
+  onAddCard,
+  onCardClick,
+  onCardLikeClick,
+  onCardDelete,
+}) => {
   const currentUser = useContext(CurrentUserContext);
   const currentCards = useContext(CurrentCardsContext);
 
@@ -39,12 +46,12 @@ export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClic
         ></button>
       </section>
       <section className="cards">
-        {currentCards?.map(card  => (
+        {currentCards?.map((card) => (
           <Card
             key={card._id}
-            card ={card}
-            isOwnerCard={card.owner._id===currentUser._id}
-            isLiked={card.likes.some(like => like._id === currentUser._id)}
+            card={card}
+            isOwnerCard={card.owner._id === currentUser._id}
+            isLiked={card.likes.some((like) => like._id === currentUser._id)}
             onCardClick={onCardClick}
             onCardLikeClick={onCardLikeClick}
             onCardDelete={onCardDelete}
@@ -53,4 +60,6 @@ export default function Main({onEditAvatar, onEditProfile, onAddCard, onCardClic
       </section>
     </main>
   );
-}
+};
+
+export default Main;

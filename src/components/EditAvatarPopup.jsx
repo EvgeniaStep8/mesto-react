@@ -1,20 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 
 const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
-	const inputRef = useRef(null);
+  const inputRef = useRef(null);
 
-	const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
+  const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateAvatar({
       avatar: inputRef.current.value,
     });
-  }
-	
+  };
 
-	return (
-		<div className={classNamePopup} id="popup-update-avatar">
+  return (
+    <div className={classNamePopup} id="popup-update-avatar">
       <div className="popup__container">
         <h2 className="popup__title">Обновить аватар</h2>
         <form
@@ -24,26 +23,30 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
           onSubmit={handleSubmit}
         >
           <input
-            id = "link-avatar-input"
+            id="link-avatar-input"
             type="url"
             name="avatar"
             className="popup__input popup__input_type_link"
             placeholder="Ссылка на картинку профиля"
             required
-						ref={inputRef}
+            ref={inputRef}
           />
-          <span id = "link-avatar-input-error" className="popup__input-error"></span>
-          <button className="popup__save-button" type="submit">Сохранить</button>
+          <span
+            id="link-avatar-input-error"
+            className="popup__input-error"
+          ></span>
+          <button className="popup__save-button" type="submit">
+            Сохранить
+          </button>
         </form>
         <button
-				  className="popup__close"
-					type="button"
-					onClick={onClose}
-				>
-				</button>
+          className="popup__close"
+          type="button"
+          onClick={onClose}
+        ></button>
       </div>
     </div>
-	)
-}
+  );
+};
 
 export default EditAvatarPopup;

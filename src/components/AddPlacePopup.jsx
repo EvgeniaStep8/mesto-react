@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const AddPlacePopup = ({ isOpen, onClose,  onAddCard}) => {
+const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
-  
-  const [title, setTitle] = useState('');
-  const [link, setLink] = useState('');
 
-  const handleTitleChange = event => {
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+
+  const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  }
+  };
 
-  const handleLinkChange = event => {
+  const handleLinkChange = (event) => {
     setLink(event.target.value);
-  }
+  };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    onAddCard({name: title, link});
-  }
+    onAddCard({ name: title, link });
+  };
 
   return (
     <div className={classNamePopup} id="popup-add">
@@ -40,9 +40,12 @@ const AddPlacePopup = ({ isOpen, onClose,  onAddCard}) => {
             required
             onChange={handleTitleChange}
           />
-          <span name="name-card-input-error" className="popup__input-error"></span>
+          <span
+            name="name-card-input-error"
+            className="popup__input-error"
+          ></span>
           <input
-            id = "link-input"
+            id="link-input"
             type="url"
             name="link"
             className="popup__input popup__input_type_link"
@@ -51,17 +54,18 @@ const AddPlacePopup = ({ isOpen, onClose,  onAddCard}) => {
             onChange={handleLinkChange}
           />
           <span name="link-input-error" className="popup__input-error"></span>
-          <button className="popup__save-button" type="submit">Создать</button>
+          <button className="popup__save-button" type="submit">
+            Создать
+          </button>
         </form>
         <button
           className="popup__close"
           type="button"
           onClick={onClose}
-        >
-        </button>
+        ></button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AddPlacePopup;

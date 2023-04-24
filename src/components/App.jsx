@@ -57,56 +57,66 @@ const App = () => {
     setAddCardPopupOpen(false);
     setEditProfilePopupOpen(false);
     setSelectedCard({ name: "", link: "", isSelected: false });
-  }
+  };
 
   const handleUpdateUser = (userInfo) => {
     api
-    .patchUserInfo(userInfo)
-    .then(user => {
-      setCurrentUser(user);
-      closeAllPopup();
-    })
-    .catch(err => console.log(err));
-  }
+      .patchUserInfo(userInfo)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleUpdateAvatar = userAvatar => {
+  const handleUpdateAvatar = (userAvatar) => {
     api
-    .patchUserAvatar(userAvatar)
-    .then(user => {
-      setCurrentUser(user);
-      closeAllPopup();
-    })
-    .catch(err => console.log(err));
-  }
+      .patchUserAvatar(userAvatar)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handlePlaceSubmit = card => {
+  const handlePlaceSubmit = (card) => {
     api
-    .postCard(card)
-    .then(newCard => {
-      setCurrentCards([newCard, ...currentCards]);
-      closeAllPopup();
-    })
-    .catch(err => console.log(err));
-  }
+      .postCard(card)
+      .then((newCard) => {
+        setCurrentCards([newCard, ...currentCards]);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleCardClick = card => {
+  const handleCardClick = (card) => {
     setSelectedCard(card);
   };
 
-  const handleLikeClick = card => {
-    const isLiked = card.likes.some(like => like._id === currentUser._id);
+  const handleLikeClick = (card) => {
+    const isLiked = card.likes.some((like) => like._id === currentUser._id);
     api
-    .changeCardLikes(card._id, isLiked)
-    .then(newCard => {
-      setCurrentCards(state => state.map(cardItem => card._id===cardItem._id ? newCard : cardItem))})
-    .catch(err => console.log(err));
-  }
+      .changeCardLikes(card._id, isLiked)
+      .then((newCard) => {
+        setCurrentCards((state) =>
+          state.map((cardItem) =>
+            card._id === cardItem._id ? newCard : cardItem
+          )
+        );
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleCardDelete = card => {
-    api.deleteCard(card._id)
-    .then(() => setCurrentCards(state => state.filter((cardItem) => cardItem._id !== card._id)))
-    .catch(err => console.log(err));
-  }
+  const handleCardDelete = (card) => {
+    api
+      .deleteCard(card._id)
+      .then(() =>
+        setCurrentCards((state) =>
+          state.filter((cardItem) => cardItem._id !== card._id)
+        )
+      )
+      .catch((err) => console.log(err));
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
