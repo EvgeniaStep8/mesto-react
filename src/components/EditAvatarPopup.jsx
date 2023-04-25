@@ -16,7 +16,12 @@ const EditAvatarPopup = memo(
       changePending();
       onUpdateAvatar({
         avatar: inputRef.current.value,
-      });
+      })
+      .finally(() => {
+        inputRef.current.value = "";
+        changePending();
+      })
+      
     };
 
     return (

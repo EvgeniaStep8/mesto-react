@@ -24,7 +24,12 @@ const AddPlacePopup = memo(
     const handleSubmit = (event) => {
       event.preventDefault();
       changePending();
-      onAddCard({ name: title, link });
+      onAddCard({ name: title, link })
+      .finally(()=> {
+        setTitle("");
+        setLink("");
+        changePending();
+      });
     };
 
     return (

@@ -61,7 +61,7 @@ const App = () => {
   };
 
   const changePending = () => {
-    setPending(!isPending);
+    setPending(state => !state);
   }
 
   const handleUpdateUser = (userInfo) => {
@@ -76,25 +76,23 @@ const App = () => {
   };
 
   const handleUpdateAvatar = (userAvatar) => {
-    api
+    return api
       .patchUserAvatar(userAvatar)
       .then((user) => {
         setCurrentUser(user);
         closeAllPopup();
       })
-      .catch((err) => console.log(err))
-      .finally(()=> setPending(false));
+      .catch((err) => console.log(err));
   };
 
   const handlePlaceSubmit = (card) => {
-    api
+    return api
       .postCard(card)
       .then((newCard) => {
         setCurrentCards([newCard, ...currentCards]);
         closeAllPopup();
       })
-      .catch((err) => console.log(err))
-      .finally(()=> setPending(false));
+      .catch((err) => console.log(err));
   };
 
   const handleCardClick = (card) => {
