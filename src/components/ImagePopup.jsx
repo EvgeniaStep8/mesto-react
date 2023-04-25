@@ -1,10 +1,10 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 
 const ImagePopup = memo(({ card, onClose }) => {
-  const isOpen = card.isSelected;
-  const classNamePopup = `popup popup_overlay_dark ${
-    isOpen ? "popup_opened" : ""
-  }`;
+  const isOpen = useMemo(() => card.isSelected, [card]);
+  const classNamePopup = useMemo(() => {
+    return `popup popup_overlay_dark ${isOpen ? "popup_opened" : ""}`;
+  }, [isOpen]);
 
   return (
     <div className={classNamePopup} id="popup-open-image">
