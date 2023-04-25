@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -33,7 +33,8 @@ const App = () => {
   const [currentCards, setCurrentCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(
       ([userData, cards]) => {
         setCurrentUser(userData);
         setCurrentCards(cards);
@@ -41,30 +42,30 @@ const App = () => {
     );
   }, []);
 
-  const handleEditAvatarClick = () => {
+  const handleEditAvatarClick = useCallback(() => {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-  };
+  }, [isEditAvatarPopupOpen]);
 
-  const handleAddCardClick = () => {
+  const handleAddCardClick = useCallback(() => {
     setAddCardPopupOpen(!isAddCardPopupOpen);
-  };
+  }, [isAddCardPopupOpen]);
 
-  const handleEditPtofileClick = () => {
+  const handleEditPtofileClick = useCallback(() => {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
-  };
+  }, [isEditProfilePopupOpen]);
 
-  const closeAllPopup = () => {
+  const closeAllPopup = useCallback(() => {
     setEditAvatarPopupOpen(false);
     setAddCardPopupOpen(false);
     setEditProfilePopupOpen(false);
     setSelectedCard({ name: "", link: "", isSelected: false });
-  };
+  }, []);
 
-  const changePending = () => {
+  const changePending = useCallback(() => {
     setPending(state => !state);
-  }
+  }, []);
 
-  const handleUpdateUser = (userInfo) => {
+  const handleUpdateUser = useCallback((userInfo) => {
     api
       .patchUserInfo(userInfo)
       .then((user) => {
@@ -73,9 +74,9 @@ const App = () => {
       })
       .catch((err) => console.log(err))
       .finally(()=> setPending(false));
-  };
+  }, [closeAllPopup]);
 
-  const handleUpdateAvatar = (userAvatar) => {
+  const handleUpdateAvatar = useCallback((userAvatar) => {
     return api
       .patchUserAvatar(userAvatar)
       .then((user) => {
@@ -83,9 +84,9 @@ const App = () => {
         closeAllPopup();
       })
       .catch((err) => console.log(err));
-  };
+  }, [closeAllPopup]);
 
-  const handlePlaceSubmit = (card) => {
+  const handlePlaceSubmit = useCallback((card) => {
     return api
       .postCard(card)
       .then((newCard) => {
@@ -93,13 +94,13 @@ const App = () => {
         closeAllPopup();
       })
       .catch((err) => console.log(err));
-  };
+  }, [closeAllPopup, currentCards]);
 
-  const handleCardClick = (card) => {
+  const handleCardClick = useCallback((card) => {
     setSelectedCard(card);
-  };
+  }, []);
 
-  const handleLikeClick = (card) => {
+  const handleLikeClick = useCallback((card) => {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
     api
       .changeCardLikes(card._id, isLiked)
@@ -111,9 +112,9 @@ const App = () => {
         );
       })
       .catch((err) => console.log(err));
-  };
+  }, [currentUser]);
 
-  const handleCardDelete = (card) => {
+  const handleCardDelete = useCallback((card) => {
     api
       .deleteCard(card._id)
       .then(() =>
@@ -122,7 +123,7 @@ const App = () => {
         )
       )
       .catch((err) => console.log(err));
-  };
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
