@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, memo } from "react";
+import React, { memo , useState, useContext, useEffect, useMemo, useCallback } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const EditProfilePopup = memo(
@@ -7,25 +7,26 @@ const EditProfilePopup = memo(
     const [description, setDescription] = useState("");
     const currentUser = useContext(CurrentUserContext);
 
+    const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
+
     useEffect(() => {
       setName(currentUser.name);
       setDescription(currentUser.about);
     }, [currentUser]);
 
-    const handleNameChange = (event) => {
+    const handleNameChange = useCallback((event) => {
       setName(event.target.value);
-    };
-    const handleDescriptionChange = (event) => {
-      setDescription(event.target.value);
-    };
+    }, []);
 
-    const handleSubmit = (event) => {
+    const handleDescriptionChange = useCallback((event) => {
+      setDescription(event.target.value);
+    }, []);
+
+    const handleSubmit = useCallback((event) => {
       event.preventDefault();
       changePending();
       onUpdateUser({ name, about: description });
-    };
-
-    const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
+    }, [changePending, onUpdateUser, name, description]);
 
     return (
       <div className={classNamePopup} id="popup-edit">
