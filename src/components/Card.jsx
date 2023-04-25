@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 
 const Card = memo(
   ({
@@ -9,21 +9,21 @@ const Card = memo(
     onCardLikeClick,
     onCardDelete,
   }) => {
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
       onCardClick({
         name: card.name,
         link: card.link,
         isSelected: true,
       });
-    };
+    }, [onCardClick, card]);
 
-    const handleLikeClick = () => {
+    const handleLikeClick = useCallback(() => {
       onCardLikeClick(card);
-    };
+    }, [onCardLikeClick, card]);
 
-    const handleCardDelete = () => {
+    const handleCardDelete = useCallback(() => {
       onCardDelete(card);
-    };
+    }, [onCardDelete, card]);
 
     return (
       <article className="card">
