@@ -6,6 +6,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
+import ConfirmPopup from "./ConfirmPopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardsContext } from "../contexts/CurrentCardsContext";
@@ -14,6 +15,7 @@ const App = () => {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
   const [isPending, setPending] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({
@@ -58,6 +60,7 @@ const App = () => {
     setEditAvatarPopupOpen(false);
     setAddCardPopupOpen(false);
     setEditProfilePopupOpen(false);
+    setConfirmPopupOpen(false);
     setSelectedCard({ name: "", link: "", isSelected: false });
   }, []);
 
@@ -115,6 +118,11 @@ const App = () => {
   }, [currentUser]);
 
   const handleCardDelete = useCallback((card) => {
+    setConfirmPopupOpen(!isConfirmPopupOpen);
+    
+  }, []);
+
+  const handleConfirm = useCallback((card) => {
     api
       .deleteCard(card._id)
       .then(() =>
@@ -161,6 +169,11 @@ const App = () => {
             changePending={changePending}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopup} />
+          <ConfirmPopup
+            isOpen={isConfirmPopupOpen}
+            onClose={closeAllPopup}
+            onConfirm={handleConfirm}
+          />
         </div>
       </CurrentCardsContext.Provider>
     </CurrentUserContext.Provider>
