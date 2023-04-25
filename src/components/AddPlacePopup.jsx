@@ -1,27 +1,27 @@
-import React, { useState, memo } from "react";
+import React, { useState, useMemo, useCallback, memo } from "react";
 
 const AddPlacePopup = memo(
   ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
-    const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
+    const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
 
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
 
-    const handleTitleChange = (event) => {
+    const handleTitleChange = useCallback((event) => {
       setTitle(event.target.value);
-    };
+    }, []);
 
-    const handleLinkChange = (event) => {
+    const handleLinkChange = useCallback((event) => {
       setLink(event.target.value);
-    };
+    }, []);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
       onClose();
       setTitle("");
       setLink("");
-    };
+    }, [onClose]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = useCallback((event) => {
       event.preventDefault();
       changePending();
       onAddCard({ name: title, link })
@@ -30,7 +30,7 @@ const AddPlacePopup = memo(
         setLink("");
         changePending();
       });
-    };
+    }, [changePending, onAddCard, title, link]);
 
     return (
       <div className={classNamePopup} id="popup-add">
