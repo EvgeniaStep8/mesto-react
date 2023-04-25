@@ -1,17 +1,17 @@
-import React, { useRef, memo } from "react";
+import React, { memo, useRef, useMemo, useCallback } from "react";
 
 const EditAvatarPopup = memo(
   ({ isOpen, onClose, onUpdateAvatar, isPending, changePending }) => {
     const inputRef = useRef(null);
 
-    const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
+    const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
       onClose();
       inputRef.current.value = "";
-    };
+    }, [onClose]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = useCallback((event) => {
       event.preventDefault();
       changePending();
       onUpdateAvatar({
@@ -20,9 +20,9 @@ const EditAvatarPopup = memo(
       .finally(() => {
         inputRef.current.value = "";
         changePending();
-      })
+      });
       
-    };
+    }, [changePending, onUpdateAvatar]);
 
     return (
       <div className={classNamePopup} id="popup-update-avatar">
