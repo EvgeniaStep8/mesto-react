@@ -1,6 +1,7 @@
 import React, { memo , useState, useContext, useEffect, useMemo, useCallback } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import useCloseByEscape from "../hooks/useCloseByEsc";
+import useCloseByEscape from "../hooks/useEscapeKeydown";
+import useOverlayClick from "../hooks/useOverlayClick";
 
 const EditProfilePopup = memo(
   ({ isOpen, onClose, onUpdateUser, isPending, changePending }) => {
@@ -10,7 +11,8 @@ const EditProfilePopup = memo(
 
     const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
 
-    useCloseByEscape();
+    useCloseByEscape(onClose);
+    const handleOverlayClick = useOverlayClick(onClose);
 
     useEffect(() => {
       setName(currentUser.name);
@@ -30,12 +32,6 @@ const EditProfilePopup = memo(
       changePending();
       onUpdateUser({ name, about: description });
     }, [changePending, onUpdateUser, name, description]);
-
-    const handleOverlayClick = useCallback((event) => {
-      if (event.target === event.currentTarget) {
-        onClose();
-      }
-    }, [onClose]);
 
     return (
       <div className={classNamePopup} id="popup-edit" onClick={handleOverlayClick} >

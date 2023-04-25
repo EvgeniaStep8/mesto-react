@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useCallback, memo } from "react";
+import useEscapeKeydown from "../hooks/useEscapeKeydown";
+import useOverlayClick from "../hooks/useOverlayClick";
 
 const AddPlacePopup = memo(
   ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
@@ -32,8 +34,11 @@ const AddPlacePopup = memo(
       });
     }, [changePending, onAddCard, title, link]);
 
+    useEscapeKeydown(handleClose);
+    const handleOverlayClick = useOverlayClick(handleClose);
+
     return (
-      <div className={classNamePopup} id="popup-add">
+      <div className={classNamePopup} id="popup-add" onClick={handleOverlayClick}>
         <div className="popup__container">
           <h2 className="popup__title">Новое место</h2>
           <form
