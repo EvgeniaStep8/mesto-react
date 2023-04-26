@@ -34,7 +34,7 @@ const AddPlacePopup = memo(
       });
     }, [changePending, onAddCard, title, link]);
 
-    useEscapeKeydown(handleClose);
+    useEscapeKeydown(handleClose, isOpen);
     const handleOverlayClick = useOverlayClick(handleClose);
 
     return (

@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 
-const useEscapeKeydown = (close) => {
+const useEscapeKeydown = (close, isOpen) => {
   const handleEscapeClose = useCallback(
     (event) => {
       if (event.key === "Escape") {
@@ -9,12 +9,13 @@ const useEscapeKeydown = (close) => {
     }, [close]);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleEscapeClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeClose);
-    };
-  }, [handleEscapeClose]);
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscapeClose);
+      return () => {
+        document.removeEventListener("keydown", handleEscapeClose);
+      };
+    }
+  }, [handleEscapeClose, isOpen]);
 };
 
 export default useEscapeKeydown;

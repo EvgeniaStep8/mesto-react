@@ -26,7 +26,7 @@ const EditAvatarPopup = memo(
       
     }, [changePending, onUpdateAvatar]);
 
-    useEscapeKeydown(handleClose);
+    useEscapeKeydown(handleClose, isOpen);
     const handleOverlayClick = useOverlayClick(handleClose);
 
     return (
