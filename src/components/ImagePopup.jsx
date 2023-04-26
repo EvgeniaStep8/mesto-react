@@ -7,12 +7,16 @@ const ImagePopup = memo(({ card, onClose }) => {
   const classNamePopup = useMemo(() => {
     return `popup popup_overlay_dark ${isOpen ? "popup_opened" : ""}`;
   }, [isOpen]);
-  
+
   useEscapeKeydown(onClose, isOpen);
   const handleOverlayClick = useOverlayClick(onClose);
 
   return (
-    <div className={classNamePopup} id="popup-open-image" onClick={handleOverlayClick}>
+    <div
+      className={classNamePopup}
+      id="popup-open-image"
+      onClick={handleOverlayClick}
+    >
       <div className="popup__image-container">
         <figure className="popup__figure">
           <img alt={card.name} src={card.link} className="popup__image" />

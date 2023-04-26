@@ -4,7 +4,10 @@ import useOverlayClick from "../hooks/useOverlayClick";
 
 const AddPlacePopup = memo(
   ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
-    const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
+    const classNamePopup = useMemo(
+      () => `popup ${isOpen ? "popup_opened" : ""}`,
+      [isOpen]
+    );
 
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
@@ -23,22 +26,28 @@ const AddPlacePopup = memo(
       setLink("");
     }, [onClose]);
 
-    const handleSubmit = useCallback((event) => {
-      event.preventDefault();
-      changePending();
-      onAddCard({ name: title, link })
-      .finally(()=> {
-        setTitle("");
-        setLink("");
+    const handleSubmit = useCallback(
+      (event) => {
+        event.preventDefault();
         changePending();
-      });
-    }, [changePending, onAddCard, title, link]);
+        onAddCard({ name: title, link }).finally(() => {
+          setTitle("");
+          setLink("");
+          changePending();
+        });
+      },
+      [changePending, onAddCard, title, link]
+    );
 
     useEscapeKeydown(handleClose, isOpen);
     const handleOverlayClick = useOverlayClick(handleClose);
 
     return (
-      <div className={classNamePopup} id="popup-add" onClick={handleOverlayClick}>
+      <div
+        className={classNamePopup}
+        id="popup-add"
+        onClick={handleOverlayClick}
+      >
         <div className="popup__container">
           <h2 className="popup__title">Новое место</h2>
           <form

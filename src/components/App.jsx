@@ -17,7 +17,6 @@ const App = () => {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
   const [isPending, setPending] = useState(false);
-
   const [confirmedCardForDelete, setConfirmedCardForDelete] = useState({});
 
   const [selectedCard, setSelectedCard] = useState({
@@ -37,8 +36,7 @@ const App = () => {
   const [currentCards, setCurrentCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(
+    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       ([userData, cards]) => {
         setCurrentUser(userData);
         setCurrentCards(cards);
@@ -67,69 +65,86 @@ const App = () => {
   }, []);
 
   const changePending = useCallback(() => {
-    setPending(state => !state);
+    setPending((state) => !state);
   }, []);
 
-  const handleUpdateUser = useCallback((userInfo) => {
-    api
-      .patchUserInfo(userInfo)
-      .then((user) => {
-        setCurrentUser(user);
-        closeAllPopup();
-      })
-      .catch((err) => console.log(err))
-      .finally(()=> setPending(false));
-  }, [closeAllPopup]);
+  const handleUpdateUser = useCallback(
+    (userInfo) => {
+      api
+        .patchUserInfo(userInfo)
+        .then((user) => {
+          setCurrentUser(user);
+          closeAllPopup();
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setPending(false));
+    },
+    [closeAllPopup]
+  );
 
-  const handleUpdateAvatar = useCallback((userAvatar) => {
-    return api
-      .patchUserAvatar(userAvatar)
-      .then((user) => {
-        setCurrentUser(user);
-        closeAllPopup();
-      })
-      .catch((err) => console.log(err));
-  }, [closeAllPopup]);
+  const handleUpdateAvatar = useCallback(
+    (userAvatar) => {
+      return api
+        .patchUserAvatar(userAvatar)
+        .then((user) => {
+          setCurrentUser(user);
+          closeAllPopup();
+        })
+        .catch((err) => console.log(err));
+    },
+    [closeAllPopup]
+  );
 
-  const handlePlaceSubmit = useCallback((card) => {
-    return api
-      .postCard(card)
-      .then((newCard) => {
-        setCurrentCards([newCard, ...currentCards]);
-        closeAllPopup();
-      })
-      .catch((err) => console.log(err));
-  }, [closeAllPopup, currentCards]);
+  const handlePlaceSubmit = useCallback(
+    (card) => {
+      return api
+        .postCard(card)
+        .then((newCard) => {
+          setCurrentCards([newCard, ...currentCards]);
+          closeAllPopup();
+        })
+        .catch((err) => console.log(err));
+    },
+    [closeAllPopup, currentCards]
+  );
 
   const handleCardClick = useCallback((card) => {
     setSelectedCard(card);
   }, []);
 
-  const handleLikeClick = useCallback((card) => {
-    const isLiked = card.likes.some((like) => like._id === currentUser._id);
-    api
-      .changeCardLikes(card._id, isLiked)
-      .then((newCard) => {
-        setCurrentCards((state) =>
-          state.map((cardItem) =>
-            card._id === cardItem._id ? newCard : cardItem
-          )
-        );
-      })
-      .catch((err) => console.log(err));
-  }, [currentUser]);
+  const handleLikeClick = useCallback(
+    (card) => {
+      const isLiked = card.likes.some((like) => like._id === currentUser._id);
+      api
+        .changeCardLikes(card._id, isLiked)
+        .then((newCard) => {
+          setCurrentCards((state) =>
+            state.map((cardItem) =>
+              card._id === cardItem._id ? newCard : cardItem
+            )
+          );
+        })
+        .catch((err) => console.log(err));
+    },
+    [currentUser]
+  );
 
-  const handleCardDelete = useCallback((card) => {
-    setConfirmPopupOpen(!isConfirmPopupOpen);
-    setConfirmedCardForDelete(card);
-  }, [isConfirmPopupOpen]);
+  const handleCardDelete = useCallback(
+    (card) => {
+      setConfirmPopupOpen(!isConfirmPopupOpen);
+      setConfirmedCardForDelete(card);
+    },
+    [isConfirmPopupOpen]
+  );
 
   const handleConfirm = useCallback(() => {
     api
       .deleteCard(confirmedCardForDelete._id)
       .then(() =>
         setCurrentCards((state) =>
-          state.filter((cardItem) => cardItem._id !== confirmedCardForDelete._id)
+          state.filter(
+            (cardItem) => cardItem._id !== confirmedCardForDelete._id
+          )
         )
       )
       .catch((err) => console.log(err));

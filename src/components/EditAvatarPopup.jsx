@@ -5,32 +5,40 @@ import useOverlayClick from "../hooks/useOverlayClick";
 const EditAvatarPopup = memo(
   ({ isOpen, onClose, onUpdateAvatar, isPending, changePending }) => {
     const inputRef = useRef(null);
-    
-    const classNamePopup = useMemo(() => `popup ${isOpen ? "popup_opened" : ""}`, [isOpen]);
+
+    const classNamePopup = useMemo(
+      () => `popup ${isOpen ? "popup_opened" : ""}`,
+      [isOpen]
+    );
 
     const handleClose = useCallback(() => {
       onClose();
       inputRef.current.value = "";
     }, [onClose]);
 
-    const handleSubmit = useCallback((event) => {
-      event.preventDefault();
-      changePending();
-      onUpdateAvatar({
-        avatar: inputRef.current.value,
-      })
-      .finally(() => {
-        inputRef.current.value = "";
+    const handleSubmit = useCallback(
+      (event) => {
+        event.preventDefault();
         changePending();
-      });
-      
-    }, [changePending, onUpdateAvatar]);
+        onUpdateAvatar({
+          avatar: inputRef.current.value,
+        }).finally(() => {
+          inputRef.current.value = "";
+          changePending();
+        });
+      },
+      [changePending, onUpdateAvatar]
+    );
 
     useEscapeKeydown(handleClose, isOpen);
     const handleOverlayClick = useOverlayClick(handleClose);
 
     return (
-      <div className={classNamePopup} id="popup-update-avatar" onClick={handleOverlayClick}>
+      <div
+        className={classNamePopup}
+        id="popup-update-avatar"
+        onClick={handleOverlayClick}
+      >
         <div className="popup__container">
           <h2 className="popup__title">Обновить аватар</h2>
           <form
