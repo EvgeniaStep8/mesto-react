@@ -1,10 +1,10 @@
 import React, { memo, useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CurrentCardsContext } from "../contexts/CurrentCardsContext";
 
 const Main = memo(
   ({
+    cards,
     onEditAvatar,
     onEditProfile,
     onAddCard,
@@ -13,7 +13,6 @@ const Main = memo(
     onCardDelete,
   }) => {
     const currentUser = useContext(CurrentUserContext);
-    const currentCards = useContext(CurrentCardsContext);
 
     return (
       <main className="content">
@@ -47,7 +46,7 @@ const Main = memo(
           ></button>
         </section>
         <section className="cards">
-          {currentCards?.map((card) => (
+          {cards?.map((card) => (
             <Card
               key={card._id}
               card={card}

@@ -9,7 +9,6 @@ import ImagePopup from "./ImagePopup";
 import ConfirmPopup from "./ConfirmPopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CurrentCardsContext } from "../contexts/CurrentCardsContext";
 
 const App = () => {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -33,16 +32,15 @@ const App = () => {
     cohort: "",
   });
 
-  const [currentCards, setCurrentCards] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
-      ([userData, cards]) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cards]) => {
         setCurrentUser(userData);
-        setCurrentCards(cards);
-      }
-    )
-    .catch((err) => console.log(err));
+        setCards(cards);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const handleEditAvatarClick = useCallback(() => {
@@ -101,12 +99,12 @@ const App = () => {
       return api
         .postCard(card)
         .then((newCard) => {
-          setCurrentCards([newCard, ...currentCards]);
+          setCards([newCard, ...cards]);
           closeAllPopup();
         })
         .catch((err) => console.log(err));
     },
-    [closeAllPopup, currentCards]
+    [closeAllPopup, cards]
   );
 
   const handleCardClick = useCallback((card) => {
@@ -119,7 +117,7 @@ const App = () => {
       api
         .changeCardLikes(card._id, isLiked)
         .then((newCard) => {
-          setCurrentCards((state) =>
+          setCards((state) =>
             state.map((cardItem) =>
               card._id === cardItem._id ? newCard : cardItem
             )
@@ -142,7 +140,7 @@ const App = () => {
     api
       .deleteCard(confirmedCardForDelete._id)
       .then(() =>
-        setCurrentCards((state) =>
+        setCards((state) =>
           state.filter(
             (cardItem) => cardItem._id !== confirmedCardForDelete._id
           )
@@ -153,47 +151,46 @@ const App = () => {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <CurrentCardsContext.Provider value={currentCards}>
-        <div className="app">
-          <Header />
-          <Main
-            onEditAvatar={handleEditAvatarClick}
-            onAddCard={handleAddCardClick}
-            onEditProfile={handleEditPtofileClick}
-            onCardClick={handleCardClick}
-            onCardLikeClick={handleLikeClick}
-            onCardDelete={handleCardDelete}
-          />
-          <Footer />
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopup}
-            onUpdateUser={handleUpdateUser}
-            isPending={isPending}
-            changePending={changePending}
-          />
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopup}
-            onUpdateAvatar={handleUpdateAvatar}
-            isPending={isPending}
-            changePending={changePending}
-          />
-          <AddPlacePopup
-            isOpen={isAddCardPopupOpen}
-            onClose={closeAllPopup}
-            onAddCard={handlePlaceSubmit}
-            isPending={isPending}
-            changePending={changePending}
-          />
-          <ImagePopup card={selectedCard} onClose={closeAllPopup} />
-          <ConfirmPopup
-            isOpen={isConfirmPopupOpen}
-            onClose={closeAllPopup}
-            onConfirm={handleConfirm}
-          />
-        </div>
-      </CurrentCardsContext.Provider>
+      <div className="app">
+        <Header />
+        <Main
+          cards={cards}
+          onEditAvatar={handleEditAvatarClick}
+          onAddCard={handleAddCardClick}
+          onEditProfile={handleEditPtofileClick}
+          onCardClick={handleCardClick}
+          onCardLikeClick={handleLikeClick}
+          onCardDelete={handleCardDelete}
+        />
+        <Footer />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopup}
+          onUpdateUser={handleUpdateUser}
+          isPending={isPending}
+          changePending={changePending}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopup}
+          onUpdateAvatar={handleUpdateAvatar}
+          isPending={isPending}
+          changePending={changePending}
+        />
+        <AddPlacePopup
+          isOpen={isAddCardPopupOpen}
+          onClose={closeAllPopup}
+          onAddCard={handlePlaceSubmit}
+          isPending={isPending}
+          changePending={changePending}
+        />
+        <ImagePopup card={selectedCard} onClose={closeAllPopup} />
+        <ConfirmPopup
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopup}
+          onConfirm={handleConfirm}
+        />
+      </div>
     </CurrentUserContext.Provider>
   );
 };
