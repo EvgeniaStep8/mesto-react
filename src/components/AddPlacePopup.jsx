@@ -53,7 +53,6 @@ const AddPlacePopup = memo(
           <form
             className="popup__form"
             name="popupAddForm"
-            noValidate
             onSubmit={handleSubmit}
           >
             <input

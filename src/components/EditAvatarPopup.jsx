@@ -44,7 +44,6 @@ const EditAvatarPopup = memo(
           <form
             className="popup__form"
             name="popupUpdateAvatarForm"
-            noValidate
             onSubmit={handleSubmit}
           >
             <input

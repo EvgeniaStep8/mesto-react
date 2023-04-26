@@ -57,7 +57,6 @@ const EditProfilePopup = memo(
           <form
             className="popup__form"
             name="popupEditForm"
-            noValidate
             onSubmit={handleSubmit}
           >
             <input
