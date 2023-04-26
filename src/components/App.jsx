@@ -41,7 +41,8 @@ const App = () => {
         setCurrentUser(userData);
         setCurrentCards(cards);
       }
-    );
+    )
+    .catch((err) => console.log(err));
   }, []);
 
   const handleEditAvatarClick = useCallback(() => {
