@@ -18,6 +18,8 @@ const App = () => {
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
   const [isPending, setPending] = useState(false);
 
+  const [confirmedCardForDelete, setConfirmedCardForDelete] = useState({});
+
   const [selectedCard, setSelectedCard] = useState({
     name: "",
     link: "",
@@ -119,19 +121,19 @@ const App = () => {
 
   const handleCardDelete = useCallback((card) => {
     setConfirmPopupOpen(!isConfirmPopupOpen);
-    
-  }, []);
+    setConfirmedCardForDelete(card);
+  }, [isConfirmPopupOpen]);
 
-  const handleConfirm = useCallback((card) => {
+  const handleConfirm = useCallback(() => {
     api
-      .deleteCard(card._id)
+      .deleteCard(confirmedCardForDelete._id)
       .then(() =>
         setCurrentCards((state) =>
-          state.filter((cardItem) => cardItem._id !== card._id)
+          state.filter((cardItem) => cardItem._id !== confirmedCardForDelete._id)
         )
       )
       .catch((err) => console.log(err));
-  }, []);
+  }, [confirmedCardForDelete]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

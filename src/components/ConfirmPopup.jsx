@@ -12,8 +12,8 @@ const ConfirmPopup = memo(
     const handleSubmit = useCallback((event) => {
 			event.preventDefault();
       onConfirm();
-      
-    }, [onConfirm]);
+      onClose();
+    }, [onConfirm, onClose]);
 
     useEscapeKeydown(onClose);
     const handleOverlayClick = useOverlayClick(onClose);
