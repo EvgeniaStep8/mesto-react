@@ -11,9 +11,10 @@ import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useOverlayClick from "../hooks/useOverlayClick";
 
 const EditProfilePopup = memo(
-  ({ isOpen, onClose, onUpdateUser, isPending, changePending }) => {
+  ({ isOpen, onClose, onUpdateUser }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [isPending, setPending] = useState(false);
     const currentUser = useContext(CurrentUserContext);
 
     const classNamePopup = useMemo(
@@ -37,10 +38,11 @@ const EditProfilePopup = memo(
     const handleSubmit = useCallback(
       (event) => {
         event.preventDefault();
-        changePending();
-        onUpdateUser({ name, about: description });
+        setPending(true);
+        onUpdateUser({ name, about: description })
+          .finally(() => setPending(false));
       },
-      [changePending, onUpdateUser, name, description]
+      [onUpdateUser, name, description]
     );
 
     useEscapeKeydown(onClose, isOpen);

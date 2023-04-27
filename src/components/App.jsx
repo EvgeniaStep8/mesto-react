@@ -15,7 +15,6 @@ const App = () => {
   const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
-  const [isPending, setPending] = useState(false);
   const [confirmedCardForDelete, setConfirmedCardForDelete] = useState({});
 
   const [selectedCard, setSelectedCard] = useState({
@@ -63,20 +62,15 @@ const App = () => {
     setSelectedCard({ name: "", link: "", isSelected: false });
   }, []);
 
-  const changePending = useCallback(() => {
-    setPending((state) => !state);
-  }, []);
-
   const handleUpdateUser = useCallback(
     (userInfo) => {
-      api
+      return api
         .patchUserInfo(userInfo)
         .then((user) => {
           setCurrentUser(user);
           closeAllPopup();
         })
         .catch((err) => console.log(err))
-        .finally(() => setPending(false));
     },
     [closeAllPopup]
   );
@@ -167,22 +161,16 @@ const App = () => {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopup}
           onUpdateUser={handleUpdateUser}
-          isPending={isPending}
-          changePending={changePending}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopup}
           onUpdateAvatar={handleUpdateAvatar}
-          isPending={isPending}
-          changePending={changePending}
         />
         <AddPlacePopup
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopup}
           onAddCard={handlePlaceSubmit}
-          isPending={isPending}
-          changePending={changePending}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         <ConfirmPopup

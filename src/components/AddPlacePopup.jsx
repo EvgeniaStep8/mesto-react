@@ -3,7 +3,7 @@ import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useOverlayClick from "../hooks/useOverlayClick";
 
 const AddPlacePopup = memo(
-  ({ isOpen, onClose, onAddCard, isPending, changePending }) => {
+  ({ isOpen, onClose, onAddCard }) => {
     const classNamePopup = useMemo(
       () => `popup ${isOpen ? "popup_opened" : ""}`,
       [isOpen]
@@ -11,6 +11,7 @@ const AddPlacePopup = memo(
 
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
+    const [isPending, setPending] = useState(false);
 
     const handleTitleChange = useCallback((event) => {
       setTitle(event.target.value);
@@ -29,14 +30,14 @@ const AddPlacePopup = memo(
     const handleSubmit = useCallback(
       (event) => {
         event.preventDefault();
-        changePending();
+        setPending(true);
         onAddCard({ name: title, link }).finally(() => {
           setTitle("");
           setLink("");
-          changePending();
+          setPending(false);
         });
       },
-      [changePending, onAddCard, title, link]
+      [onAddCard, title, link]
     );
 
     useEscapeKeydown(handleClose, isOpen);
