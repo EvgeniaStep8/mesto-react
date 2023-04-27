@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState, useMemo, useCallback } from "react";
+import React, { memo, useRef, useState } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useOverlayClick from "../hooks/useOverlayClick";
 
@@ -7,18 +7,14 @@ const EditAvatarPopup = memo(
     const inputRef = useRef(null);
     const [isPending, setPending] = useState(false);
 
-    const classNamePopup = useMemo(
-      () => `popup ${isOpen ? "popup_opened" : ""}`,
-      [isOpen]
-    );
-
-    const handleClose = useCallback(() => {
+    const classNamePopup =  `popup ${isOpen ? "popup_opened" : ""}`
+    
+    const handleClose = () => {
       onClose();
       inputRef.current.value = "";
-    }, [onClose]);
+    }
 
-    const handleSubmit = useCallback(
-      (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         setPending(true);
         onUpdateAvatar({
@@ -27,9 +23,7 @@ const EditAvatarPopup = memo(
           inputRef.current.value = "";
           setPending(false);
         });
-      },
-      [onUpdateAvatar]
-    );
+      }
 
     useEscapeKeydown(handleClose, isOpen);
     const handleOverlayClick = useOverlayClick(handleClose);

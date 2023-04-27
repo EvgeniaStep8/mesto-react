@@ -1,21 +1,15 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useOverlayClick from "../hooks/useOverlayClick";
 
 const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
-  const classNamePopup = useMemo(
-    () => `popup ${isOpen ? "popup_opened" : ""}`,
-    [isOpen]
-  );
+  const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-      onConfirm();
-      onClose();
-    },
-    [onConfirm, onClose]
-  );
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onConfirm();
+    onClose();
+  };
 
   useEscapeKeydown(onClose, isOpen);
   const handleOverlayClick = useOverlayClick(onClose);

@@ -2,7 +2,7 @@ import React, { memo, useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const Main = memo(
+const Main = (
   ({
     cards,
     onEditAvatar,
@@ -13,6 +13,8 @@ const Main = memo(
     onCardDelete,
   }) => {
     const currentUser = useContext(CurrentUserContext);
+
+    console.log('render');
 
     return (
       <main className="content">
