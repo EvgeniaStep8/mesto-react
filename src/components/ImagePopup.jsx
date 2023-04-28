@@ -8,7 +8,7 @@ const ImagePopup = memo(({ card, onClose }) => {
 
   useEscapeKeydown(onClose, isOpen);
   const handleOverlayClick = useOverlayClick(onClose);
-
+  
   return (
     <div
       className={classNamePopup}
