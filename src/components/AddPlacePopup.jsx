@@ -7,7 +7,7 @@ const AddPlacePopup = memo(
   ({ isOpen, onClose, onAddCard }) => {
     const classNamePopup =  `popup ${isOpen ? "popup_opened" : ""}`;
 
-    const { values, setValues, handleChange } = useInputsChange();
+    const { values, setValues, handleChange } = useInputsChange({ title: "", link: "" });
     const [isPending, setPending] = useState(false);
 
     const handleClose = () => {

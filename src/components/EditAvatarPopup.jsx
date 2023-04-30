@@ -1,26 +1,25 @@
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useState } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
+import useInputsChange from "../hooks/useInputsChange"
 import handleOverlayClick from "../utils/utils";
 
 const EditAvatarPopup = memo(
   ({ isOpen, onClose, onUpdateAvatar }) => {
-    const inputRef = useRef(null);
-    const [isPending, setPending] = useState(false);
+    const classNamePopup =  `popup ${isOpen ? "popup_opened" : ""}`;
 
-    const classNamePopup =  `popup ${isOpen ? "popup_opened" : ""}`
-    
+    const [isPending, setPending] = useState(false);
+    const { values, setValues, handleChange } = useInputsChange({ avatar: "" });
+  
     const handleClose = () => {
       onClose();
-      inputRef.current.value = "";
+      setValues({ avatar: "" });
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setPending(true);
-        onUpdateAvatar({
-          avatar: inputRef.current.value,
-        }).finally(() => {
-          inputRef.current.value = "";
+        onUpdateAvatar(values).finally(() => {
+          setValues({ avatar: "" });
           setPending(false);
         });
       }
@@ -48,7 +47,8 @@ const EditAvatarPopup = memo(
               className="popup__input popup__input_type_link"
               placeholder="Ссылка на картинку профиля"
               required
-              ref={inputRef}
+              value={values.avatar}
+              onChange={handleChange}
             />
             <span
               id="link-avatar-input-error"
