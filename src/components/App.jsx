@@ -89,9 +89,9 @@ const App = () => {
   );
 
   const handlePlaceSubmit = useCallback(
-    (card) => {
+    ({ title: name, link}) => {
       return api
-        .postCard(card)
+        .postCard({ name, link })
         .then((newCard) => {
           setCards([newCard, ...cards]);
           closeAllPopup();

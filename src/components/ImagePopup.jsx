@@ -1,19 +1,19 @@
 import React, { memo } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
-import useOverlayClick from "../hooks/useOverlayClick";
+import handleOverlayClick from "../utils/utils";
 
 const ImagePopup = memo(({ card, onClose }) => {
   const isOpen = card.isSelected;
   const classNamePopup =   `popup popup_overlay_dark ${isOpen ? "popup_opened" : ""}`;
 
   useEscapeKeydown(onClose, isOpen);
-  const handleOverlayClick = useOverlayClick(onClose);
+  const handleCloseByOverlayClick = handleOverlayClick(onClose);
   
   return (
     <div
       className={classNamePopup}
       id="popup-open-image"
-      onClick={handleOverlayClick}
+      onClick={handleCloseByOverlayClick}
     >
       <div className="popup__image-container">
         <figure className="popup__figure">

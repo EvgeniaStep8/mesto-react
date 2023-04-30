@@ -1,7 +1,7 @@
 import React, { memo, useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
-import useOverlayClick from "../hooks/useOverlayClick";
+import handleOverlayClick from "../utils/utils";
 
 const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
   const [name, setName] = useState("");
@@ -31,13 +31,13 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
   };
 
   useEscapeKeydown(onClose, isOpen);
-  const handleOverlayClick = useOverlayClick(onClose);
+  const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
   return (
     <div
       className={classNamePopup}
       id="popup-edit"
-      onClick={handleOverlayClick}
+      onClick={handleCloseByOverlayClick}
     >
       <div className="popup__container">
         <h2 className="popup__title">Редактировать профиль</h2>

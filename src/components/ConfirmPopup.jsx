@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
-import useOverlayClick from "../hooks/useOverlayClick";
+import handleOverlayClick from "../utils/utils";
 
 const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
@@ -12,13 +12,13 @@ const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
   };
 
   useEscapeKeydown(onClose, isOpen);
-  const handleOverlayClick = useOverlayClick(onClose);
+  const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
   return (
     <div
       className={classNamePopup}
       id="popup-confirm"
-      onClick={handleOverlayClick}
+      onClick={handleCloseByOverlayClick}
     >
       <div className="popup__container">
         <h2 className="popup__title">Вы уверены?</h2>

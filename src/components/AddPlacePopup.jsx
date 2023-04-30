@@ -1,48 +1,38 @@
 import React, { useState, memo } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
-import useOverlayClick from "../hooks/useOverlayClick";
+import useInputsChange from "../hooks/useInputsChange"
+import handleOverlayClick from "../utils/utils";
 
 const AddPlacePopup = memo(
   ({ isOpen, onClose, onAddCard }) => {
     const classNamePopup =  `popup ${isOpen ? "popup_opened" : ""}`;
 
-    const [title, setTitle] = useState("");
-    const [link, setLink] = useState("");
+    const { values, setValues, handleChange } = useInputsChange();
     const [isPending, setPending] = useState(false);
-
-    const handleTitleChange = (event) => {
-      setTitle(event.target.value);
-    }
-
-    const handleLinkChange = (event) => {
-      setLink(event.target.value);
-    }
 
     const handleClose = () => {
       onClose();
-      setTitle("");
-      setLink("");
+      setValues({ title: "", link: "" });
     }
 
     const handleSubmit = 
       (event) => {
         event.preventDefault();
         setPending(true);
-        onAddCard({ name: title, link }).finally(() => {
-          setTitle("");
-          setLink("");
+        onAddCard(values).finally(() => {
+          setValues({ title: "", link: "" })
           setPending(false);
         });
       }
 
     useEscapeKeydown(handleClose, isOpen);
-    const handleOverlayClick = useOverlayClick(handleClose);
+    const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
     return (
       <div
         className={classNamePopup}
         id="popup-add"
-        onClick={handleOverlayClick}
+        onClick={handleCloseByOverlayClick}
       >
         <div className="popup__container">
           <h2 className="popup__title">Новое место</h2>
@@ -60,8 +50,8 @@ const AddPlacePopup = memo(
               minLength="2"
               maxLength="30"
               required
-              value={title}
-              onChange={handleTitleChange}
+              value={values.title}
+              onChange={handleChange}
             />
             <span
               name="name-card-input-error"
@@ -74,8 +64,8 @@ const AddPlacePopup = memo(
               className="popup__input popup__input_type_link"
               placeholder="Ссылка на картинку"
               required
-              value={link}
-              onChange={handleLinkChange}
+              value={values.link}
+              onChange={handleChange}
             />
             <span name="link-input-error" className="popup__input-error"></span>
             <button className="popup__save-button" type="submit">

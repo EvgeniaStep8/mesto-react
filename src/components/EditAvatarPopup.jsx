@@ -1,6 +1,6 @@
 import React, { memo, useRef, useState } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
-import useOverlayClick from "../hooks/useOverlayClick";
+import handleOverlayClick from "../utils/utils";
 
 const EditAvatarPopup = memo(
   ({ isOpen, onClose, onUpdateAvatar }) => {
@@ -25,14 +25,14 @@ const EditAvatarPopup = memo(
         });
       }
 
-    useEscapeKeydown(handleClose, isOpen);
-    const handleOverlayClick = useOverlayClick(handleClose);
+      useEscapeKeydown(handleClose, isOpen);
+      const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
     return (
       <div
         className={classNamePopup}
         id="popup-update-avatar"
-        onClick={handleOverlayClick}
+        onClick={handleCloseByOverlayClick}
       >
         <div className="popup__container">
           <h2 className="popup__title">Обновить аватар</h2>
