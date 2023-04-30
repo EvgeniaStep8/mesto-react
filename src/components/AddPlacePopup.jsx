@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, useEffect, memo } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useInputsChange from "../hooks/useInputsChange"
 import handleOverlayClick from "../utils/utils";
@@ -10,22 +10,20 @@ const AddPlacePopup = memo(
     const { values, setValues, handleChange } = useInputsChange({ title: "", link: "" });
     const [isPending, setPending] = useState(false);
 
-    const handleClose = () => {
-      onClose();
+    useEffect(() => {
       setValues({ title: "", link: "" });
-    }
+    }, [setValues, isOpen]);
 
     const handleSubmit = 
       (event) => {
         event.preventDefault();
         setPending(true);
         onAddCard(values).finally(() => {
-          setValues({ title: "", link: "" })
           setPending(false);
         });
       }
 
-    useEscapeKeydown(handleClose, isOpen);
+    useEscapeKeydown(onClose, isOpen);
     const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
     return (
@@ -75,7 +73,7 @@ const AddPlacePopup = memo(
           <button
             className="popup__close"
             type="button"
-            onClick={handleClose}
+            onClick={onClose}
           ></button>
         </div>
       </div>

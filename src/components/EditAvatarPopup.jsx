@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import useInputsChange from "../hooks/useInputsChange"
 import handleOverlayClick from "../utils/utils";
@@ -9,11 +9,10 @@ const EditAvatarPopup = memo(
 
     const [isPending, setPending] = useState(false);
     const { values, setValues, handleChange } = useInputsChange({ avatar: "" });
-  
-    const handleClose = () => {
-      onClose();
+
+    useEffect(() => {
       setValues({ avatar: "" });
-    }
+    }, [setValues, isOpen]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -24,7 +23,7 @@ const EditAvatarPopup = memo(
         });
       }
 
-      useEscapeKeydown(handleClose, isOpen);
+      useEscapeKeydown(onClose, isOpen);
       const handleCloseByOverlayClick = handleOverlayClick(onClose);
 
     return (
@@ -61,7 +60,7 @@ const EditAvatarPopup = memo(
           <button
             className="popup__close"
             type="button"
-            onClick={handleClose}
+            onClick={onClose}
           ></button>
         </div>
       </div>
