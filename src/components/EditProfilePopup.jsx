@@ -1,33 +1,27 @@
 import React, { memo, useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
+import useInputsChange from "../hooks/useInputsChange";
 import handleOverlayClick from "../utils/utils";
 
 const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [isPending, setPending] = useState(false);
   const currentUser = useContext(CurrentUserContext);
+  const { values, setValues, handleChange } = useInputsChange({ name: "", about: "" });
 
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
-
+  
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, isOpen]);
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  };
+    setValues({ name: currentUser.name, about: currentUser.about });
+  }, [isOpen, currentUser, setValues]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    onUpdateUser({ name, about: description }).finally(() => setPending(false));
+    onUpdateUser(values)
+    .finally(() => {
+      setPending(false);
+    });
   };
 
   useEscapeKeydown(onClose, isOpen);
@@ -51,12 +45,12 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
             type="text"
             name="name"
             className="popup__input popup__input_type_name"
-            value={name}
             placeholder="Имя"
             minLength="2"
             maxLength="40"
             required
-            onChange={handleNameChange}
+            value={values.name}
+            onChange={handleChange}
           />
           <span id="name-input-error" className="popup__input-error"></span>
           <input
@@ -64,12 +58,12 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
             type="text"
             name="about"
             className="popup__input popup__input_type_job"
-            value={description}
             placeholder="О себе"
             minLength="2"
             maxLength="200"
             required
-            onChange={handleDescriptionChange}
+            value={values.about}
+            onChange={handleChange}
           />
           <span id="job-input-error" className="popup__input-error"></span>
           <button className="popup__save-button" type="submit">
