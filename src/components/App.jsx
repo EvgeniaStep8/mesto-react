@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
+import Register from "./Register";
+import Login from "./Login";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -70,7 +73,7 @@ const App = () => {
           setCurrentUser(user);
           closeAllPopup();
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     },
     [closeAllPopup]
   );
@@ -89,7 +92,7 @@ const App = () => {
   );
 
   const handlePlaceSubmit = useCallback(
-    ({ title: name, link}) => {
+    ({ title: name, link }) => {
       return api
         .postCard({ name, link })
         .then((newCard) => {
@@ -147,15 +150,24 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
         <Header />
-        <Main
-          cards={cards}
-          onEditAvatar={handleEditAvatarClick}
-          onAddCard={handleAddCardClick}
-          onEditProfile={handleEditPtofileClick}
-          onCardClick={handleCardClick}
-          onCardLikeClick={handleLikeClick}
-          onCardDelete={handleCardDelete}
-        />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                cards={cards}
+                onEditAvatar={handleEditAvatarClick}
+                onAddCard={handleAddCardClick}
+                onEditProfile={handleEditPtofileClick}
+                onCardClick={handleCardClick}
+                onCardLikeClick={handleLikeClick}
+                onCardDelete={handleCardDelete}
+              />
+            }
+          />
+          <Route exact path="/signup" element={<Register/>} />
+          <Route exact path="/signin" element={<Login/>} />
+        </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
