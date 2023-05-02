@@ -23,12 +23,12 @@ const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
       <div className="popup__container">
         <h2 className="popup__title">Вы уверены?</h2>
         <form
-          className="popup__form"
+          className="form"
           name="popupUpdateAvatarForm"
           noValidate
           onSubmit={handleSubmit}
         >
-          <button className="popup__save-button" type="submit">
+          <button className="form__submit-button" type="submit">
             Да
           </button>
         </form>

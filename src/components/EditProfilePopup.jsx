@@ -38,7 +38,7 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
         id="name-input"
         type="text"
         name="name"
-        className="popup__input popup__input_type_name"
+        className="form__input form__input_type_name"
         placeholder="Имя"
         minLength="2"
         maxLength="40"
@@ -46,12 +46,12 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
         value={values.name}
         onChange={handleChange}
       />
-      <span id="name-input-error" className="popup__input-error"></span>
+      <span id="name-input-error" className="form__input-error"></span>
       <input
         id="job-input"
         type="text"
         name="about"
-        className="popup__input popup__input_type_job"
+        className="form__input form__input_type_job"
         placeholder="О себе"
         minLength="2"
         maxLength="200"
@@ -59,7 +59,7 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
         value={values.about}
         onChange={handleChange}
       />
-      <span id="job-input-error" className="popup__input-error"></span>
+      <span id="job-input-error" className="form__input-error"></span>
     </PopupWithForm>
   );
 });

@@ -1,0 +1,21 @@
+.form__input-error {
+  opacity: 0;
+  display: inline-block;
+  width: 100%;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF0000;
+  min-height: 30px;
+  margin-top: 5px;
+}
+
+.form__input-error :last-of-type {
+  margin-bottom: 26px;
+}
+
+@media screen and (max-width: 767.98px) {
+  .form__input-error :last-of-type {
+    margin-bottom: 45px;
+  }
+}
