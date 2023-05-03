@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
-import Register from "./Register";
-import Login from "./Login";
+import Authorization from "./Authorization";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -165,8 +164,26 @@ const App = () => {
               />
             }
           />
-          <Route exact path="/signup" element={<Register/>} />
-          <Route exact path="/signin" element={<Login/>} />
+          <Route 
+            path="/signup"
+            element={
+              <Authorization
+                title="Регистрация"
+                buttonText="Зарегистрироваться"
+                isUserAuthorized={true}
+              />
+            } 
+          />
+          <Route 
+            path="/signin"
+            element={
+              <Authorization
+                title="Вход"
+                buttonText="Войти"
+                isUserAuthorized={false}
+              />
+            }
+          />
         </Routes>
         <Footer />
         <EditProfilePopup
