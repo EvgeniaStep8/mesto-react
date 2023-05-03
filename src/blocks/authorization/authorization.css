@@ -1,6 +1,8 @@
 .authorization {
+  max-width: 358px;
+  margin: 0 auto;
   flex-grow: 1;
-  padding: 100px auto 80px;
+  padding: 100px 0 80px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
