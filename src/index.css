@@ -54,5 +54,6 @@
 @import url('./blocks/form/__submit-button/_type/__confirm/form__submit-button_type_confirm.css');
 @import url('./blocks/form/__submit-button/_disabled/form__submit-button_disabled.css');
 /* Стили authorization*/
-@import url(./blocks/authorization/authorization.css);
+@import url('./blocks/authorization/authorization.css');
 @import url('./blocks/authorization/__title/authorization__title.css');
+@import url('./blocks/authorization/__info/authorization__info.css');
