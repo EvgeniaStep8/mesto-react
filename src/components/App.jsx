@@ -14,10 +14,13 @@ import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const App = () => {
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
-  const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
-  const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
+  const [isOpen, setOpen] = useState({
+    editAvatarPopup: false,
+    addCardPopup: false,
+    editProfilePopup: false,
+    confirmPopup: false,
+    infoTooltipPopup: false,
+  });
   const [confirmedCardForDelete, setConfirmedCardForDelete] = useState({});
 
   const [selectedCard, setSelectedCard] = useState({
@@ -46,22 +49,25 @@ const App = () => {
   }, []);
 
   const handleEditAvatarClick = useCallback(() => {
-    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-  }, [isEditAvatarPopupOpen]);
+    setOpen((state) => ({ ...state, editAvatarPopup: true}));
+  }, []);
 
   const handleAddCardClick = useCallback(() => {
-    setAddCardPopupOpen(!isAddCardPopupOpen);
-  }, [isAddCardPopupOpen]);
+    setOpen((state) => ({ ...state, addCardPopup: true}));
+  }, []);
 
-  const handleEditPtofileClick = useCallback(() => {
-    setEditProfilePopupOpen(!isEditProfilePopupOpen);
-  }, [isEditProfilePopupOpen]);
+  const handleEditProfileClick = useCallback(() => {
+    setOpen((state) => ({ ...state, editProfilePopup: true}));
+  }, []);
 
   const closeAllPopup = useCallback(() => {
-    setEditAvatarPopupOpen(false);
-    setAddCardPopupOpen(false);
-    setEditProfilePopupOpen(false);
-    setConfirmPopupOpen(false);
+    setOpen({
+      editAvatarPopup: false,
+      addCardPopup: false,
+      editProfilePopup: false,
+      confirmPopup: false,
+      infoTooltipPopup: false,
+    });
     setSelectedCard({ name: "", link: "", isSelected: false });
   }, []);
 
@@ -127,10 +133,10 @@ const App = () => {
 
   const handleCardDelete = useCallback(
     (card) => {
-      setConfirmPopupOpen(!isConfirmPopupOpen);
+      setOpen((state) => ({ ...state, confirmPopup: true}));
       setConfirmedCardForDelete(card);
     },
-    [isConfirmPopupOpen]
+    []
   );
 
   const handleConfirm = useCallback(() => {
@@ -158,7 +164,7 @@ const App = () => {
                 cards={cards}
                 onEditAvatar={handleEditAvatarClick}
                 onAddCard={handleAddCardClick}
-                onEditProfile={handleEditPtofileClick}
+                onEditProfile={handleEditProfileClick}
                 onCardClick={handleCardClick}
                 onCardLikeClick={handleLikeClick}
                 onCardDelete={handleCardDelete}
@@ -188,27 +194,27 @@ const App = () => {
         </Routes>
         <Footer />
         <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
+          isOpen={isOpen.editProfilePopup}
           onClose={closeAllPopup}
           onUpdateUser={handleUpdateUser}
         />
         <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
+          isOpen={isOpen.editAvatarPopup}
           onClose={closeAllPopup}
           onUpdateAvatar={handleUpdateAvatar}
         />
         <AddPlacePopup
-          isOpen={isAddCardPopupOpen}
+          isOpen={isOpen.addCardPopup}
           onClose={closeAllPopup}
           onAddCard={handlePlaceSubmit}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         <ConfirmPopup
-          isOpen={isConfirmPopupOpen}
+          isOpen={isOpen.confirmPopup}
           onClose={closeAllPopup}
           onConfirm={handleConfirm}
         />
-        <InfoTooltip isOpen={true} onClose={closeAllPopup}/>
+        <InfoTooltip isOpen={isOpen.infoTooltipPopup} onClose={closeAllPopup}/>
       </div>
     </CurrentUserContext.Provider>
   );

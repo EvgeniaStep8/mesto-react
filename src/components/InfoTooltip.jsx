@@ -22,7 +22,7 @@ const InfoTooltip = ({ isOpen, onClose }) => {
     >
       <div className="popup__container">
         <img
-          class="popup__info-icon"
+          className="popup__info-icon"
           src={image}
           alt="Информация об успешности регистации"
         />
