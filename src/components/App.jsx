@@ -9,6 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import ConfirmPopup from "./ConfirmPopup";
+import InfoTooltip from "./InfoTooltip";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -207,6 +208,7 @@ const App = () => {
           onClose={closeAllPopup}
           onConfirm={handleConfirm}
         />
+        <InfoTooltip isOpen={true} onClose={closeAllPopup}/>
       </div>
     </CurrentUserContext.Provider>
   );
