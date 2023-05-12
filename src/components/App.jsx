@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Register from "./Register";
@@ -38,6 +38,8 @@ const App = () => {
     cohort: "",
   });
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -50,15 +52,15 @@ const App = () => {
   }, []);
 
   const handleEditAvatarClick = useCallback(() => {
-    setOpen((state) => ({ ...state, editAvatarPopup: true}));
+    setOpen((state) => ({ ...state, editAvatarPopup: true }));
   }, []);
 
   const handleAddCardClick = useCallback(() => {
-    setOpen((state) => ({ ...state, addCardPopup: true}));
+    setOpen((state) => ({ ...state, addCardPopup: true }));
   }, []);
 
   const handleEditProfileClick = useCallback(() => {
-    setOpen((state) => ({ ...state, editProfilePopup: true}));
+    setOpen((state) => ({ ...state, editProfilePopup: true }));
   }, []);
 
   const closeAllPopup = useCallback(() => {
@@ -132,13 +134,10 @@ const App = () => {
     [currentUser]
   );
 
-  const handleCardDelete = useCallback(
-    (card) => {
-      setOpen((state) => ({ ...state, confirmPopup: true}));
-      setConfirmedCardForDelete(card);
-    },
-    []
-  );
+  const handleCardDelete = useCallback((card) => {
+    setOpen((state) => ({ ...state, confirmPopup: true }));
+    setConfirmedCardForDelete(card);
+  }, []);
 
   const handleConfirm = useCallback(() => {
     api
@@ -161,27 +160,23 @@ const App = () => {
           <Route
             path="/"
             element={
-              <Main
-                cards={cards}
-                onEditAvatar={handleEditAvatarClick}
-                onAddCard={handleAddCardClick}
-                onEditProfile={handleEditProfileClick}
-                onCardClick={handleCardClick}
-                onCardLikeClick={handleLikeClick}
-                onCardDelete={handleCardDelete}
-              />
+              loggedIn ? (
+                <Main
+                  cards={cards}
+                  onEditAvatar={handleEditAvatarClick}
+                  onAddCard={handleAddCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onCardClick={handleCardClick}
+                  onCardLikeClick={handleLikeClick}
+                  onCardDelete={handleCardDelete}
+                />
+              ) : (
+                <Navigate to="/signin" replace={true} />
+              )
             }
           />
-          <Route 
-            path="/signup"
-            element={<Register/>} 
-          />
-          <Route 
-            path="/signin"
-            element={
-              <Login/>
-            }
-          />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/signin" element={<Login />} />
         </Routes>
         <Footer />
         <EditProfilePopup
@@ -205,7 +200,7 @@ const App = () => {
           onClose={closeAllPopup}
           onConfirm={handleConfirm}
         />
-        <InfoTooltip isOpen={isOpen.infoTooltipPopup} onClose={closeAllPopup}/>
+        <InfoTooltip isOpen={isOpen.infoTooltipPopup} onClose={closeAllPopup} />
       </div>
     </CurrentUserContext.Provider>
   );
