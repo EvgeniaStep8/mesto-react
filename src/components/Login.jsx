@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
 		<div className="authorization">
-			<h1 className="authorization__title">Регистрация</h1>
+			<h1 className="authorization__title">Вход</h1>
 			<form className="form">
 				<input
 				  type="email"
@@ -23,12 +22,9 @@ const Login = () => {
 				/>
         <span id="password-input-error" className="form__input-error"></span>
 				<button className="form__submit-button form__submit-button_type_authorization">
-				  Зарегистрироваться
+				Войти
 				</button>
 			</form>
-			<p className="authorization__info">
-			  Уже зарегистрированы? <Link className="link" to="/signup" >Войти</Link>
-			</p>
 		</div>
 	)
 }
