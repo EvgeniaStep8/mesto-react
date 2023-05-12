@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Register from "./Register";
@@ -13,6 +13,7 @@ import ConfirmPopup from "./ConfirmPopup";
 import InfoTooltip from "./InfoTooltip";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [isOpen, setOpen] = useState({
@@ -160,19 +161,18 @@ const App = () => {
           <Route
             path="/"
             element={
-              loggedIn ? (
-                <Main
-                  cards={cards}
-                  onEditAvatar={handleEditAvatarClick}
-                  onAddCard={handleAddCardClick}
-                  onEditProfile={handleEditProfileClick}
-                  onCardClick={handleCardClick}
-                  onCardLikeClick={handleLikeClick}
-                  onCardDelete={handleCardDelete}
-                />
-              ) : (
-                <Navigate to="/signin" replace={true} />
-              )
+              <ProtectedRoute
+                element={Main}
+                redirectPath="/signin"
+                loggedIn={loggedIn}
+                cards={cards}
+                onEditAvatar={handleEditAvatarClick}
+                onAddCard={handleAddCardClick}
+                onEditProfile={handleEditProfileClick}
+                onCardClick={handleCardClick}
+                onCardLikeClick={handleLikeClick}
+                onCardDelete={handleCardDelete}
+              />
             }
           />
           <Route path="/signup" element={<Register />} />
