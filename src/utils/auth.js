@@ -5,6 +5,13 @@ class Auth {
     this.url = url;
   }
 
+  _checkResopne(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   register(inputsValue) {
     return fetch(`${BASE_URL}/signup`, {
       method: 'POST',
@@ -12,7 +19,7 @@ class Auth {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(inputsValue),
-    })
+    }).then((res) => this._checkResopne(res));
   }
 
   authorization(inputsValue) {
@@ -22,7 +29,7 @@ class Auth {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(inputsValue),
-    })
+    }).then((res) => this._checkResopne(res));
   }
 
   getUserByToken(jwt) {
@@ -32,7 +39,7 @@ class Auth {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${jwt}`,
       }
-    }
+    }.then((res) => this._checkResopne(res));
   }
 }
 

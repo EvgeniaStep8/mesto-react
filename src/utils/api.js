@@ -18,7 +18,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 
   getInitialCards() {
@@ -26,7 +26,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 
   patchUserInfo({ name, about }) {
@@ -40,7 +40,7 @@ class Api {
         name: name,
         about: about,
       }),
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 
   patchUserAvatar({ avatar }) {
@@ -53,7 +53,7 @@ class Api {
       body: JSON.stringify({
         avatar: avatar,
       }),
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 
   postCard(card) {
@@ -64,7 +64,7 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(card),
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 
   deleteCard(cardId) {
@@ -73,7 +73,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then(this._checkResopne)
+    }).then((res) => this._checkResopne(res));
   }
 
   changeCardLikes(cardId, isCardLiked) {
@@ -83,14 +83,14 @@ class Api {
         headers: {
           authorization: this._authorization,
         },
-      }).then(this._checkResopne);
+      }).then((res) => this._checkResopne(res));
     }
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
         authorization: this._authorization,
       },
-    }).then(this._checkResopne);
+    }).then((res) => this._checkResopne(res));
   }
 }
 
