@@ -22,13 +22,13 @@ class Auth {
     }).then((res) => this._checkResopne(res));
   }
 
-  authorization(inputsValue) {
+  authorization(inputsValues) {
     return fetch(`${BASE_URL_AUTH}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(inputsValue),
+      body: JSON.stringify(inputsValues),
     }).then((res) => this._checkResopne(res));
   }
 

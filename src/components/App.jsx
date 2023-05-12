@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
 import Main from "./Main";
 import Register from "./Register";
@@ -12,8 +13,9 @@ import ImagePopup from "./ImagePopup";
 import ConfirmPopup from "./ConfirmPopup";
 import InfoTooltip from "./InfoTooltip";
 import api from "../utils/api";
+import auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import ProtectedRoute from "./ProtectedRoute";
+
 
 const App = () => {
   const [isOpen, setOpen] = useState({
@@ -24,13 +26,11 @@ const App = () => {
     infoTooltipPopup: false,
   });
   const [confirmedCardForDelete, setConfirmedCardForDelete] = useState({});
-
   const [selectedCard, setSelectedCard] = useState({
     name: "",
     link: "",
     isSelected: false,
   });
-
   const [currentUser, setCurrentUser] = useState({
     name: "",
     about: "",
@@ -38,10 +38,11 @@ const App = () => {
     _id: "",
     cohort: "",
   });
+  
+  const [cards, setCards] = useState([]);
 
   const [loggedIn, setLoggedIn] = useState(false);
-
-  const [cards, setCards] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -153,6 +154,15 @@ const App = () => {
       .catch((err) => console.log(err));
   }, [confirmedCardForDelete]);
 
+  const handleLoginSubmit = (inputsValues) => {
+    return auth.authorization(inputsValues).then((data) => {
+        localStorage.setItem('token', data.token);
+        setLoggedIn(true);
+        navigate('/', {replace: true});
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
@@ -176,7 +186,7 @@ const App = () => {
             }
           />
           <Route path="/signup" element={<Register />} />
-          <Route path="/signin" element={<Login />} />
+          <Route path="/signin" element={<Login onSubmit={handleLoginSubmit} />} />
         </Routes>
         <Footer />
         <EditProfilePopup
