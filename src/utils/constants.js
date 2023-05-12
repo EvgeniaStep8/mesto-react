@@ -3,12 +3,7 @@ const apiOptions = {
   authorization: '6c5b9d14-85b6-40ab-839b-e140f1872a35',
 }
 
-  const settingsValidation = {
-    inputSelector: '.popup__input',
-    buttonSubmitSelector: '.popup__save-button',
-    buttonSubmitDisabledClass: 'popup__save-button_disabled',
-    inputErrorActiveClass: 'popup__input-error_active',
-    inputTypeErrorClass: 'popup__input_type_error',
-  }
+const BASE_URL_AUTH = 'https://auth.nomoreparties.co';
 
-  export {apiOptions, settingsValidation}
+
+  export { apiOptions, BASE_URL_AUTH };
