@@ -32,7 +32,7 @@ class Auth {
     }).then((res) => this._checkResopne(res));
   }
 
-  getUserByToken(jwt) {
+  checkToken(jwt) {
     return fetch(`${BASE_URL_AUTH}/users/me`, {
       method: 'GET',
       headers: {

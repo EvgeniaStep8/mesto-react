@@ -155,13 +155,27 @@ const App = () => {
   }, [confirmedCardForDelete]);
 
   const handleLoginSubmit = (inputsValues) => {
-    return auth.authorization(inputsValues).then((data) => {
+    return auth.authorization(inputsValues)
+      .then((data) => {
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
         navigate('/', {replace: true});
       })
       .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      const jwt = localStorage.getItem('token');
+      auth.checkToken(jwt)
+        .then(() => {
+          setLoggedIn(true);
+          navigate('/', {replace: true});
+        })
+        .catch((err) => console.log(err));
+      }
+  }, []);
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
