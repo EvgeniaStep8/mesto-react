@@ -38,11 +38,12 @@ const App = () => {
     _id: "",
     cohort: "",
   });
-  
   const [cards, setCards] = useState([]);
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isRegisterSuccess, setRegisterSuccess] = useState(false);
   const navigate = useNavigate();
+  const [isPending, setPending] = useState(false);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -78,39 +79,42 @@ const App = () => {
 
   const handleUpdateUser = useCallback(
     (userInfo) => {
-      return api
+      api
         .patchUserInfo(userInfo)
         .then((user) => {
           setCurrentUser(user);
           closeAllPopup();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setPending(false));
     },
     [closeAllPopup]
   );
 
   const handleUpdateAvatar = useCallback(
     (userAvatar) => {
-      return api
+      api
         .patchUserAvatar(userAvatar)
         .then((user) => {
           setCurrentUser(user);
           closeAllPopup();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setPending(false));
     },
     [closeAllPopup]
   );
 
   const handlePlaceSubmit = useCallback(
     ({ title: name, link }) => {
-      return api
+      api
         .postCard({ name, link })
         .then((newCard) => {
           setCards([newCard, ...cards]);
           closeAllPopup();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setPending(false));
     },
     [closeAllPopup, cards]
   );
@@ -155,13 +159,27 @@ const App = () => {
   }, [confirmedCardForDelete]);
 
   const handleLoginSubmit = (inputsValues) => {
-    return auth.authorization(inputsValues)
+    auth.authorization(inputsValues)
       .then((data) => {
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
         navigate('/', {replace: true});
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setPending(false));
+  }
+
+  const handleRegisterSubmit = (inputsValues) => {
+    auth.register(inputsValues)
+      .then(() => {
+        navigate('/signin', {replace: true});
+        setRegisterSuccess(true);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setOpen((state) => ({ ...state, infoTooltipPopup: true }));
+        setPending(false);
+      })
   }
 
   useEffect(() => {
@@ -174,7 +192,7 @@ const App = () => {
         })
         .catch((err) => console.log(err));
       }
-  }, []);
+  }, [navigate]);
 
 
   return (
@@ -199,24 +217,42 @@ const App = () => {
               />
             }
           />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/signin" element={<Login onSubmit={handleLoginSubmit} />} />
+          <Route path="/signup" element={
+            <Register
+              onSubmit={handleRegisterSubmit}
+              isPending={isPending}
+              setPending={setPending}
+            />
+          } />
+          <Route path="/signin" element={
+            <Login
+              onSubmit={handleLoginSubmit}
+              isPending={isPending}
+              setPending={setPending}
+            />
+          } />
         </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isOpen.editProfilePopup}
           onClose={closeAllPopup}
           onUpdateUser={handleUpdateUser}
+          isPending={isPending}
+          setPending={setPending}
         />
         <EditAvatarPopup
           isOpen={isOpen.editAvatarPopup}
           onClose={closeAllPopup}
           onUpdateAvatar={handleUpdateAvatar}
+          isPending={isPending}
+          setPending={setPending}
         />
         <AddPlacePopup
           isOpen={isOpen.addCardPopup}
           onClose={closeAllPopup}
           onAddCard={handlePlaceSubmit}
+          isPending={isPending}
+          setPending={setPending}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopup} />
         <ConfirmPopup
@@ -224,7 +260,11 @@ const App = () => {
           onClose={closeAllPopup}
           onConfirm={handleConfirm}
         />
-        <InfoTooltip isOpen={isOpen.infoTooltipPopup} onClose={closeAllPopup} />
+        <InfoTooltip
+          isOpen={isOpen.infoTooltipPopup}
+          onClose={closeAllPopup}
+          isRegisterSuccess={isRegisterSuccess}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

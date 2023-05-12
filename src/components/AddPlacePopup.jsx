@@ -1,13 +1,12 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useEffect, memo } from "react";
 import useInputsChange from "../hooks/useInputsChange";
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = memo(({ isOpen, onClose, onAddCard }) => {
+const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending }) => {
   const { values, setValues, handleChange } = useInputsChange({
     title: "",
     link: "",
   });
-  const [isPending, setPending] = useState(false);
 
   useEffect(() => {
     setValues({ title: "", link: "" });
@@ -16,9 +15,7 @@ const AddPlacePopup = memo(({ isOpen, onClose, onAddCard }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    onAddCard(values).finally(() => {
-      setPending(false);
-    });
+    onAddCard(values);
   };
 
   return (

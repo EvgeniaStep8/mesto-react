@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import useInputsChange from "../hooks/useInputsChange";
 
-const Login = ({ onSubmit }) => {
+const Login = ({ onSubmit, isPending, setPending }) => {
 	const { values, setValues, handleChange } = useInputsChange({
     email: "",
     password: "",
   });
-  const [isPending, setPending] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    onSubmit(values).finally(() => setPending(false));
+    onSubmit(values);
   }
 	
   return (

@@ -1,17 +1,14 @@
-import React, { memo, useState, useContext, useEffect } from "react";
+import React, { memo, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useInputsChange from "../hooks/useInputsChange";
 
-const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
-  const [isPending, setPending] = useState(false);
+const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
   const currentUser = useContext(CurrentUserContext);
   const { values, setValues, handleChange } = useInputsChange({
     name: "",
     about: "",
   });
-
-  const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   useEffect(() => {
     setValues({ name: currentUser.name, about: currentUser.about });
@@ -20,9 +17,7 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    onUpdateUser(values).finally(() => {
-      setPending(false);
-    });
+    onUpdateUser(values);
   };
 
   return (

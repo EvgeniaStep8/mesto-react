@@ -1,24 +1,17 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import useInputsChange from "../hooks/useInputsChange";
-import auth from "../utils/auth";
 
-const Register = () => {
+const Register = ({ onSubmit, isPending, setPending }) => {
   const { values, setValues, handleChange } = useInputsChange({
     email: "",
     password: "",
   });
-  const [isPending, setPending] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    auth.register(values)
-      .then(() => navigate('/signin', {replace: true}))
-      .catch((err) => console.log(err))
-      .finally(() => setPending(false));
+    onSubmit(values);
   }
 
   return (

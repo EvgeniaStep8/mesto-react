@@ -1,9 +1,8 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import useInputsChange from "../hooks/useInputsChange";
 
-const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar }) => {
-  const [isPending, setPending] = useState(false);
+const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setPending }) => {
   const { values, setValues, handleChange } = useInputsChange({ avatar: "" });
 
   useEffect(() => {
@@ -13,10 +12,7 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setPending(true);
-    onUpdateAvatar(values).finally(() => {
-      setValues({ avatar: "" });
-      setPending(false);
-    });
+    onUpdateAvatar(values);
   };
 
   return (

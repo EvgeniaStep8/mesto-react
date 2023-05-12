@@ -4,13 +4,12 @@ import handleOverlayClick from "../utils/utils";
 import okIcon from "../images/info-tooltip-ok.svg";
 import errIcon from "../images/info-tooltip-err.svg";
 
-const InfoTooltip = ({ isOpen, onClose }) => {
+const InfoTooltip = ({ isOpen, onClose, isRegisterSuccess }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   useEscapeKeydown(onClose, isOpen);
   const handleCloseByOverlayClick = handleOverlayClick(onClose);
-  const isReg = false;
-  const image = isReg
+  const image = isRegisterSuccess
     ? okIcon
     : errIcon;
 
@@ -27,7 +26,7 @@ const InfoTooltip = ({ isOpen, onClose }) => {
           alt="Информация об успешности регистации"
         />
         <h2 className="popup__info-title">
-          {isReg
+          {isRegisterSuccess
             ? "Вы успешно зарегистрировались!"
             : "Что-то пошло не так! Попробуйте ещё раз."}
         </h2>
