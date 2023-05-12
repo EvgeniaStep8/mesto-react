@@ -13,7 +13,7 @@ class Auth {
   }
 
   register(inputsValue) {
-    return fetch(`${BASE_URL}/signup`, {
+    return fetch(`${BASE_URL_AUTH}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ class Auth {
   }
 
   authorization(inputsValue) {
-    return fetch(`${BASE_URL}/signin`, {
+    return fetch(`${BASE_URL_AUTH}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -33,13 +33,13 @@ class Auth {
   }
 
   getUserByToken(jwt) {
-    return fetch(`${BASE_URL}/users/me`), {
+    return fetch(`${BASE_URL_AUTH}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${jwt}`,
       }
-    }.then((res) => this._checkResopne(res));
+    }).then((res) => this._checkResopne(res));
   }
 }
 
