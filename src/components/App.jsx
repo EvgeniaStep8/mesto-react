@@ -198,7 +198,7 @@ const App = () => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <Header />
+        <Header loggedIn={loggedIn} />
         <Routes>
           <Route
             path="/"
@@ -232,7 +232,7 @@ const App = () => {
             />
           } />
         </Routes>
-        <Footer />
+        <Footer loggedIn={loggedIn} />
         <EditProfilePopup
           isOpen={isOpen.editProfilePopup}
           onClose={closeAllPopup}
