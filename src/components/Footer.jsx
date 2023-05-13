@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 
-const Footer = memo(() => (
+const Footer = memo(({ loggedIn }) => (
   <footer className="footer">
-    <p className="footer__copyright">
+    {loggedIn && <p className="footer__copyright">
       &#169; {new Date().getFullYear()} Mesto Russia
-    </p>
+    </p>}
   </footer>
 ));
 
