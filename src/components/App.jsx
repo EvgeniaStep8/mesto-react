@@ -39,11 +39,12 @@ const App = () => {
     cohort: "",
   });
   const [cards, setCards] = useState([]);
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegisterSuccess, setRegisterSuccess] = useState(false);
-  const navigate = useNavigate();
   const [isPending, setPending] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -163,6 +164,7 @@ const App = () => {
       .then((data) => {
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
+        setEmail(inputsValues.email);
         navigate('/', {replace: true});
       })
       .catch((err) => console.log(err))
@@ -186,8 +188,9 @@ const App = () => {
     if (localStorage.getItem('token')) {
       const jwt = localStorage.getItem('token');
       auth.checkToken(jwt)
-        .then(() => {
+        .then(({ data }) => {
           setLoggedIn(true);
+          setEmail(data.email);
           navigate('/', {replace: true});
         })
         .catch((err) => console.log(err));
@@ -198,7 +201,7 @@ const App = () => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <Header loggedIn={loggedIn} />
+        <Header loggedIn={loggedIn} email={email} />
         <Routes>
           <Route
             path="/"
