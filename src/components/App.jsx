@@ -167,7 +167,10 @@ const App = () => {
         setEmail(inputsValues.email);
         navigate('/', {replace: true});
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err);
+        setOpen((state) => ({ ...state, infoTooltipPopup: true }));
+      })
       .finally(() => setPending(false));
   }
 

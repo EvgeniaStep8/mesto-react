@@ -8,7 +8,7 @@ class Auth {
   _checkResopne(res) {
     if (res.ok) {
       return res.json();
-    }
+    } 
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
