@@ -61,11 +61,9 @@
 @import url('./blocks/form/__input/_theme/_dark/form__input_theme_dark.css');
 @import url('./blocks/form/__input/_type/_error/form__input_type_error.css');
 @import url('./blocks/form/__input-error/form__input-error.css');
-@import url('./blocks/form/__input-error/_active/form__input-error_active.css');
 @import url('./blocks/form/__submit-button/form__submit-button.css');
 @import url('./blocks/form/__submit-button/_type/_authorization/form__submit-button_type_authorization.css');
 @import url('./blocks/form/__submit-button/_type/__confirm/form__submit-button_type_confirm.css');
-@import url('./blocks/form/__submit-button/_disabled/form__submit-button_disabled.css');
 /* Стили authorization*/
 @import url('./blocks/authorization/authorization.css');
 @import url('./blocks/authorization/__title/authorization__title.css');
