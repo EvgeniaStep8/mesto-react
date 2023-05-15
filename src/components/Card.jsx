@@ -35,7 +35,7 @@ const Card = memo(
         />
         {isOwnerCard && (
           <button
-            className="card__delete"
+            className="card__delete button"
             type="button"
             onClick={handleCardDelete}
           ></button>
@@ -44,7 +44,7 @@ const Card = memo(
           <h2 className="card__title">{card.name}</h2>
           <div className="card__like-container">
             <button
-              className={`card__like ${isLiked && "card__like_active"}`}
+              className={`card__like button ${isLiked && "card__like_active"}`}
               type="button"
               onClick={handleLikeClick}
             ></button>

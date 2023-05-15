@@ -12,10 +12,6 @@
   cursor: pointer;
 }
 
-.profile__edit-button:hover {
-  opacity: 0.6;
-}
-
 @media screen and (max-width: 424.98px) {
   .profile__edit-button {
     min-width: 18px;

@@ -31,7 +31,7 @@ const Main = ({
           <div className="profile__info">
             <h1 className="profile__name">{currentUser.name}</h1>
             <button
-              className="profile__edit-button"
+              className="profile__edit-button button"
               type="button"
               onClick={onEditProfile}
             ></button>
@@ -39,7 +39,7 @@ const Main = ({
           </div>
         </div>
         <button
-          className="profile__add-button"
+          className="profile__add-button button"
           type="button"
           onClick={onAddCard}
         ></button>
