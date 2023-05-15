@@ -228,14 +228,14 @@ const App = () => {
           />
           <Route path="/signup" element={
             <Register
-              onSubmit={handleRegisterSubmit}
+              handleRegisterSubmit={handleRegisterSubmit}
               isPending={isPending}
               setPending={setPending}
             />
           } />
           <Route path="/signin" element={
             <Login
-              onSubmit={handleLoginSubmit}
+              handleLoginSubmit={handleLoginSubmit}
               isPending={isPending}
               setPending={setPending}
             />

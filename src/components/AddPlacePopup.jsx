@@ -1,21 +1,27 @@
 import React, { useEffect, memo } from "react";
-import useInputsChange from "../hooks/useInputsChange";
+import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 
 const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending }) => {
-  const { values, setValues, handleChange } = useInputsChange({
-    title: "",
-    link: "",
+  const {
+    register,
+    formState: {
+      errors,
+      isValid,
+    },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
   });
 
   useEffect(() => {
-    setValues({ title: "", link: "" });
-  }, [setValues, isOpen]);
+    reset();
+  }, [reset, isOpen]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (data) => {
     setPending(true);
-    onAddCard(values);
+    onAddCard(data);
   };
 
   return (
@@ -25,33 +31,42 @@ const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending 
       buttonText="Создать"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       isPending={isPending}
+      isValid={isValid}
     >
       <input
         id="name-card-input"
         type="text"
-        name="title"
-        className="form__input form__input_type_title"
+        className="form__input"
         placeholder="Название"
-        minLength="2"
-        maxLength="30"
-        required
-        value={values.title}
-        onChange={handleChange}
+        {...register("title", {
+          required: "Вы пропустили это поле",
+          minLength: {
+            value: 2,
+            message: "Текст должен быть не короче 2 симвоволов",
+          },
+          maxLength: {
+            value: 30,
+            message: "Текст должен быть не длиннее 30 симвоволов"
+          },
+        })}
       />
-      <span name="name-card-input-error" className="form__input-error"></span>
+      <span className="form__input-error">{errors?.title?.message}</span>
       <input
         id="link-input"
         type="url"
-        name="link"
-        className="form__input form__input_type_link"
+        className="form__input"
         placeholder="Ссылка на картинку"
-        required
-        value={values.link}
-        onChange={handleChange}
+        {...register("link", {
+          required: "Вы пропустили это поле",
+          pattern: {
+            value: /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/,
+            message: "Введите url"
+          },
+        })}
       />
-      <span name="link-input-error" className="form__input-error"></span>
+      <span className="form__input-error">{errors?.link?.message}</span>
     </PopupWithForm>
   );
 });

@@ -17,7 +17,7 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setP
 
   useEffect(() => {
     reset();
-  }, [isOpen]);
+  }, [isOpen, reset]);
 
   const onSubmit = (data) => {
     setPending(true);
@@ -44,8 +44,7 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setP
           pattern: {
             value: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
             message: "Введите url"
-          }
-
+          },
         })}
         required
       />

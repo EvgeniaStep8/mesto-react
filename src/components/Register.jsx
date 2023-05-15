@@ -1,44 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import useInputsChange from "../hooks/useInputsChange";
+import { useForm } from "react-hook-form";
 
-const Register = ({ onSubmit, isPending, setPending }) => {
-  const { values, setValues, handleChange } = useInputsChange({
-    email: "",
-    password: "",
+const Register = ({ handleRegisterSubmit, isPending, setPending }) => {
+  const {
+    register,
+    formState: {
+      errors,
+      isValid,
+    },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
+  const onSubmit = (data) => {
     setPending(true);
-    onSubmit(values);
+    handleRegisterSubmit(data);
   }
 
   return (
     <div className="authorization">
       <h1 className="authorization__title">Регистрация</h1>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="email"
           className="form__input form__input_theme_dark"
           name="email"
           placeholder="Email"
-          required
-          value={values.email}
-          onChange={handleChange}
+          {...register("email", {
+            required: "Вы пропустили это поле",
+            pattern: {
+              value: /@"(@)(.+)$/,
+              message: "Введите email"
+            }
+          })}
         />
-        <span id="login-input-error" className="form__input-error"></span>
+        <span className="form__input-error">{errors?.email?.message}</span>
         <input
           type="password"
           className="form__input form__input_theme_dark"
           name="password"
           placeholder="Пароль"
-          required
-          value={values.password}
-          onChange={handleChange}
+          {...register("password", {
+            required: "Вы пропустили это поле",
+            pattern: {
+              value: /[a-z][0-9]/,
+              message: "Пароль должен содержать латинские символы и хотя бы одну цифру",
+            },
+          })}
         />
-        <span id="password-input-error" className="form__input-error"></span>
-        <button className="form__submit-button form__submit-button_type_authorization">
+        <span className="form__input-error">{errors?.password?.message}</span>
+        <button className="form__submit-button form__submit-button_type_authorization" disabled={isValid} >
           {isPending ? "Зарегистрироваться..." : "Зарегистрироваться"}
         </button>
       </form>

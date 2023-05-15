@@ -1,43 +1,53 @@
-import React from "react";
-import useInputsChange from "../hooks/useInputsChange";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-const Login = ({ onSubmit, isPending, setPending }) => {
-	const { values, setValues, handleChange } = useInputsChange({
-    email: "",
-    password: "",
+const Login = ({ handleLoginSubmit, isPending, setPending }) => {
+	const {
+    register,
+    formState: {
+      errors,
+      isValid,
+    },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
+  const onSubmit = (data) => {
     setPending(true);
-    onSubmit(values);
+    handleLoginSubmit(data);
   }
 	
   return (
 		<div className="authorization">
 			<h1 className="authorization__title">Вход</h1>
-			<form className="form" onSubmit={handleSubmit}>
-				<input
-				  type="email"
-				  className="form__input form__input_theme_dark"
-					name="email"
-					placeholder="Email"
-					required
-					value={values.email}
-          onChange={handleChange}
-				/>
-				<span id="login-input-error" className="form__input-error"></span>
-				<input
-				  type="password"
-					className="form__input form__input_theme_dark"
-					name="password"
-					placeholder="Пароль"
-					required
-					value={values.password}
-          onChange={handleChange}
-				/>
-        <span id="password-input-error" className="form__input-error"></span>
-				<button className="form__submit-button form__submit-button_type_authorization">
+			<form className="form" onSubmit={handleSubmit(onSubmit)}>
+			<input
+          type="email"
+          className="form__input form__input_theme_dark"
+          name="email"
+          placeholder="Email"
+          {...register("email", {
+            required: "Вы пропустили это поле",
+          })}
+        />
+        <span className="form__input-error">{errors?.email?.message}</span>
+        <input
+          type="password"
+          className="form__input form__input_theme_dark"
+          name="password"
+          placeholder="Пароль"
+          {...register("password", {
+            required: "Вы пропустили это поле",
+          })}
+        />
+        <span className="form__input-error">{errors?.password?.message}</span>
+				<button className="form__submit-button form__submit-button_type_authorization" disabled={isValid} >
 				  {isPending ? "Войти..." : "Войти"}
 				</button>
 			</form>

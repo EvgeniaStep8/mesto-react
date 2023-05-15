@@ -1,23 +1,32 @@
 import React, { memo, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import useInputsChange from "../hooks/useInputsChange";
 
 const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
   const currentUser = useContext(CurrentUserContext);
-  const { values, setValues, handleChange } = useInputsChange({
-    name: "",
-    about: "",
+
+  const {
+    register,
+    formState: {
+      errors,
+      isValid,
+    },
+    handleSubmit,
+    setValue,
+  } = useForm({
+    mode: "onChange",
   });
 
-  useEffect(() => {
-    setValues({ name: currentUser.name, about: currentUser.about });
-  }, [isOpen, currentUser, setValues]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    setValue("name", currentUser.name);
+    setValue("about", currentUser.about);
+  }, [setValue, currentUser, isOpen]);
+
+  const onSubmit = (data) => {
     setPending(true);
-    onUpdateUser(values);
+    onUpdateUser(data);
   };
 
   return (
@@ -26,35 +35,47 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPe
       title="Редактировать профиль"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       isPending={isPending}
+      isValid={isValid}
     >
       <input
         id="name-input"
         type="text"
-        name="name"
         className="form__input form__input_type_name"
         placeholder="Имя"
-        minLength="2"
-        maxLength="40"
-        required
-        value={values.name}
-        onChange={handleChange}
+        {...register("name", {
+          required: "Вы пропустили это поле",
+          minLength: {
+            value: 2,
+            message: "Текст должен быть не короче 2 симвоволов",
+          },
+          maxLength: {
+            value: 40,
+            message: "Текст должен быть не длиннее 30 симвоволов"
+          },
+        })}
+        
       />
-      <span id="name-input-error" className="form__input-error"></span>
+      <span className="form__input-error">{errors?.name?.message}</span>
       <input
         id="job-input"
         type="text"
-        name="about"
         className="form__input form__input_type_job"
         placeholder="О себе"
-        minLength="2"
-        maxLength="200"
-        required
-        value={values.about}
-        onChange={handleChange}
+        {...register("about", {
+          required: "Вы пропустили это поле",
+          minLength: {
+            value: 2,
+            message: "Текст должен быть не короче 2 симвоволов",
+          },
+          maxLength: {
+            value: 200,
+            message: "Текст должен быть не длиннее 30 симвоволов"
+          },
+        })}
       />
-      <span id="job-input-error" className="form__input-error"></span>
+      <span className="form__input-error">{errors?.about?.message}</span>
     </PopupWithForm>
   );
 });
