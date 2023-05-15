@@ -184,6 +184,12 @@ const App = () => {
       })
   }
 
+  const handleLogoutClick = () => {
+    localStorage.removeItem('token');
+    navigate("/signin");
+    setLoggedIn(false);
+  }
+
   useEffect(() => {
     if (localStorage.getItem('token')) {
       const jwt = localStorage.getItem('token');
@@ -201,7 +207,7 @@ const App = () => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <Header loggedIn={loggedIn} email={email} />
+        <Header loggedIn={loggedIn} email={email} onLogoutClick={handleLogoutClick} />
         <Routes>
           <Route
             path="/"

@@ -1,17 +1,11 @@
 import React, { memo } from "react";
 import logo from "../images/header__logo.svg";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
-const Header = memo(({ loggedIn, email }) => {
+const Header = memo(({ loggedIn, email, onLogoutClick }) => {
   let location = useLocation();
-  const navigate = useNavigate();
   const linkText = location.pathname === "/signup" ? "Войти" : "Регистрация";
   const linkPath = location.pathname === "/signup" ? "/signin" : "/signup";
-
-  const handleExitClick = () => {
-    localStorage.removeItem('token');
-    navigate("/signin");
-  }
 
   return (
     <header className="header">
@@ -20,15 +14,15 @@ const Header = memo(({ loggedIn, email }) => {
         <div className="header__info">
           <p className="header__email">{email}</p>
           <button
-            className="header__exit-button"
+            className="header__logout-button"
             type="button"
-            onClick={handleExitClick}
+            onClick={onLogoutClick}
           >
             Выйти
           </button>
         </div>
       ) : (
-        <Link to={linkPath} >{linkText}</Link>
+        <Link to={linkPath} className="header__link link" >{linkText}</Link>
       )}
     </header>
   );
