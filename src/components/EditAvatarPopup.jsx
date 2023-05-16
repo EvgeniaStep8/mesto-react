@@ -1,8 +1,8 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 
-const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setPending }) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isPending, setPending }) => {
   const {
     register,
     formState: {
@@ -51,6 +51,6 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setP
       <span className="form__input-error">{errors?.avatar?.message}</span>
     </PopupWithForm>
   );
-});
+};
 
 export default EditAvatarPopup;

@@ -1,14 +1,17 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 
-const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending }) => {
+const AddPlacePopup = ({
+  isOpen,
+  onClose,
+  onAddCard,
+  isPending,
+  setPending,
+}) => {
   const {
     register,
-    formState: {
-      errors,
-      isValid,
-    },
+    formState: { errors, isValid },
     handleSubmit,
     reset,
   } = useForm({
@@ -26,8 +29,8 @@ const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending 
 
   return (
     <PopupWithForm
-      name="add-card" 
-      title="Новое место" 
+      name="add-card"
+      title="Новое место"
       buttonText="Создать"
       isOpen={isOpen}
       onClose={onClose}
@@ -48,7 +51,7 @@ const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending 
           },
           maxLength: {
             value: 30,
-            message: "Текст должен быть не длиннее 30 симвоволов"
+            message: "Текст должен быть не длиннее 30 симвоволов",
           },
         })}
       />
@@ -61,14 +64,15 @@ const AddPlacePopup = memo(({ isOpen, onClose, onAddCard, isPending, setPending 
         {...register("link", {
           required: "Вы пропустили это поле",
           pattern: {
-            value: /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/,
-            message: "Введите url"
+            value:
+              /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/,
+            message: "Введите url",
           },
         })}
       />
       <span className="form__input-error">{errors?.link?.message}</span>
     </PopupWithForm>
   );
-});
+};
 
 export default AddPlacePopup;

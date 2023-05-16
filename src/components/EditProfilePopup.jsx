@@ -1,9 +1,9 @@
-import React, { memo, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
   const currentUser = useContext(CurrentUserContext);
 
   const {
@@ -78,6 +78,6 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPe
       <span className="form__input-error">{errors?.about?.message}</span>
     </PopupWithForm>
   );
-});
+};
 
 export default EditProfilePopup;
