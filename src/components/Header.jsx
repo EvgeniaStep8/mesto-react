@@ -3,7 +3,7 @@ import logo from "../images/header__logo.svg";
 import { useLocation, Link } from "react-router-dom";
 
 const Header = ({ loggedIn, email, onLogoutClick }) => {
-  let location = useLocation();
+  const location = useLocation();
   const linkText = location.pathname === "/signup" ? "Войти" : "Регистрация";
   const linkPath = location.pathname === "/signup" ? "/signin" : "/signup";
   const [isInfoVisible, setInfoVisible] = useState(false);

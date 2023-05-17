@@ -8,7 +8,6 @@ const ConfirmPopup = ({ isOpen, onClose, onConfirm }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onConfirm();
-    onClose();
   };
 
   useEscapeKeydown(onClose, isOpen);

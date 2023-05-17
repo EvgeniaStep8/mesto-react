@@ -46,13 +46,15 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
         setCards(cards);
       })
       .catch((err) => console.log(err));
-  }, []);
+    }
+  }, [loggedIn]);
 
   const handleEditAvatarClick = () => {
     setOpen((state) => ({ ...state, editAvatarPopup: true }));
@@ -143,7 +145,8 @@ const App = () => {
           )
         )
       )
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => closeAllPopup());
   };
 
   const handleLoginSubmit = (inputsValues) => {
@@ -195,7 +198,7 @@ const App = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

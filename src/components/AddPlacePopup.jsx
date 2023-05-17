@@ -14,6 +14,7 @@ const AddPlacePopup = ({
     formState: { errors, isValid },
     handleSubmit,
     reset,
+    watch,
   } = useForm({
     mode: "onChange",
   });
@@ -43,15 +44,12 @@ const AddPlacePopup = ({
         type="text"
         className="form__input"
         placeholder="Название"
+        maxLength={30}
         {...register("title", {
           required: "Вы пропустили это поле",
           minLength: {
             value: 2,
             message: "Текст должен быть не короче 2 симвоволов",
-          },
-          maxLength: {
-            value: 30,
-            message: "Текст должен быть не длиннее 30 симвоволов",
           },
         })}
       />
